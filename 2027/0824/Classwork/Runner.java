@@ -56,7 +56,9 @@ public class Runner {
             if (mainMenuChoice == 1) {
                 // FOOD SUB-MENU
                 System.out.println("\n--- Food List ---");
-                System.out.println(foods);
+                for (int i = 0; i < foods.size(); i++){
+                    System.out.print(foods.get(i).getItem() + " ");
+                }
                 boolean inSubMenu = true;
                 while (inSubMenu) {
                     System.out.println("\nFood Options");
@@ -81,7 +83,9 @@ public class Runner {
             } else if (mainMenuChoice == 2) {
                 // TOY SUB-MENU
                 System.out.println("\n--- Toy List ---");
-                System.out.println(toys);
+                for (int j = 0; j < toys.size(); j++){
+                    System.out.print(toys.get(j).getItem() + " ");
+                }
                 boolean inSubMenu = true;
                 while (inSubMenu) {
                     System.out.println("\n--- Toy Options ---");
@@ -93,7 +97,9 @@ public class Runner {
 
                     if (subMenuChoice == 1) {
                         System.out.println("\n--- Toy List ---");
-                        System.out.println(toys);
+                        for (int j = 0; j < toys.size(); j++){
+                            System.out.print(toys.get(j).getItem() + " ");
+                        }
                     } else if (subMenuChoice == 2) {
                         inSubMenu = false; // Goes back to main menu
                     } else if (subMenuChoice == 3) {
