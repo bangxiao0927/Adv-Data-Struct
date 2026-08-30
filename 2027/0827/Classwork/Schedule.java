@@ -10,6 +10,15 @@ public class Schedule{
     public void addCourse(int period, String course) {
         mySchedule.add(new Pair<>(period, course));
     }
+
+    public int size() {
+        return mySchedule.size();
+    }
+
+    public Pair<Integer, String> getCourse(int index) {
+        return mySchedule.get(index);
+    }
+
     public String toString() {
         String ret = "";
         for (int i = 0; i < mySchedule.size(); i++){

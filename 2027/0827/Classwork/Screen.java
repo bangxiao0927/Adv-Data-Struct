@@ -8,16 +8,12 @@ import javax.swing.JTextField;
 
 public class Screen extends JPanel implements ActionListener {
     private ArrayList<Pair<Student, Schedule>> students;
-    private ArrayList<ArrayList<String>> classes;
-
-        private ArrayList<> class = new ArrayList<>();
 
     private JTextField textField;
     private int selectedStudent;
 
     public Screen() {
         students = new ArrayList<Pair<Student, Schedule>>();
-        classes = new ArrayList<ArrayList<String>>();
 
         addStudent("Alex", "Math", "English", "Computer Science");
         addStudent("Jordan", "Biology", "History", "Art");
@@ -33,13 +29,10 @@ public class Screen extends JPanel implements ActionListener {
     private void addStudent(String name, String firstClass, String secondClass,
                             String thirdClass) {
         Schedule schedule = new Schedule();
+        schedule.addCourse(1, firstClass);
+        schedule.addCourse(2, secondClass);
+        schedule.addCourse(3, thirdClass);
         students.add(new Pair<Student, Schedule>(new Student(name), schedule));
-
-        ArrayList<String> studentClasses = new ArrayList<String>();
-        studentClasses.add(firstClass);
-        studentClasses.add(secondClass);
-        studentClasses.add(thirdClass);
-        classes.add(studentClasses);
     }
 
     @Override
@@ -72,11 +65,12 @@ public class Screen extends JPanel implements ActionListener {
 
         if (selectedStudent != -1) {
             String name = students.get(selectedStudent).getKey().toString();
+            Schedule schedule = students.get(selectedStudent).getValue();
             g.drawString(name + "'s Schedule:", 300, 100);
 
-            for (int i = 0; i < classes.get(selectedStudent).size(); i++) {
-                String className = classes.get(selectedStudent).get(i);
-                g.drawString((i + 1) + ": " + className, 300, 130 + i * 30);
+            for (int i = 0; i < schedule.size(); i++) {
+                g.drawString(schedule.getCourse(i).toString(),
+                             300, 130 + i * 30);
             }
         }
     }
