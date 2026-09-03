@@ -29,10 +29,10 @@ public class Runner{
             System.out.println(list.get(i));
         }
 
-
         boolean end = false;
 
         while(!end){
+            System.out.println("=========Main Menu========");
             System.out.println("1. View Task List");
             System.out.println("2. Add Task");
             System.out.println("3. Remove Task");
@@ -41,17 +41,19 @@ public class Runner{
             System.out.println("6. Replace Task at Index");
             System.out.println("7. Test Removal at Random");
             System.out.println("8. Quit");
+            System.out.println("=========Main Menu========");
 
             int choice = sn.nextInt();
+            sn.nextLine();
 
             if (choice == 1){
                 for (int i = 0; i < list.size(); i++) {
                         System.out.println("[" + i + "] " + list.get(i));
                     }
             } else if (choice == 2){
-                System.out.print("Enter task name: ");
+                System.out.println("Enter task name: ");
                 String nameAdd = sn.nextLine();
-                System.out.print("Enter task rank (1-30): ");
+                System.out.println("Enter task rank (1-30): ");
                 int rankAdd = sn.nextInt();
                 sn.nextLine();
                 Task tempTask = new Task(nameAdd, rankAdd);
@@ -126,7 +128,7 @@ public class Runner{
                     System.out.println("Removed from index [" + randIndex + "]: " + removedRand);
                 }
                 System.out.println("The list is now completely empty.");
-            }else {
+            }else if (choice == 8) {
                 end = true;
             }
         }

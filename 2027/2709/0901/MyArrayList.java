@@ -22,12 +22,17 @@ public class MyArrayList <E> {
         if (i < 0 || i > size) {
             throw new IndexOutOfBoundsException("Index: " + i + ", size: " + size);
         }
+        
         if (size == list.length) {
             Object[] expandedList = new Object[list.length * 2];
             System.arraycopy(list, 0, expandedList, 0, list.length);
             list = expandedList;
         }
-        System.arraycopy(list, i, list, i + 1, size - i);
+
+        for (int j = size; j > i; j--) {
+            list[j] = list[j - 1];
+        }
+
         list[i] = element;
         size++;
     }
@@ -52,7 +57,7 @@ public class MyArrayList <E> {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", size: " + size);
         }
-        
+
         E removed = get(index);
         int moved = size - index - 1;
         if (moved > 0) {
@@ -64,7 +69,7 @@ public class MyArrayList <E> {
 
     public boolean remove(Object object) {
         for (int i = 0; i < size; i++) {
-            if (object == null ? list[i] == null : object.equals(list[i])) {
+            if (object.equals(list[i])) {
                 remove(i);
                 return true;
             }
@@ -82,7 +87,7 @@ public class MyArrayList <E> {
 
     public boolean contains(Object object) {
         for (int i = 0; i < size; i++) {
-            if (object == null ? list[i] == null : object.equals(list[i])) {
+            if (object.equals(list[i])) {
                 return true;
             }
         }
