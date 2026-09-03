@@ -10,7 +10,9 @@ public class MyArrayList <E> {
     public boolean add(E element){
         if (size == list.length){
             Object[] expandedList = new Object[list.length * 2];
-            System.arraycopy(list, 0, expandedList, 0, list.length);
+            for (int i = 0; i < list.length; i++) {
+                expandedList[i] = list[i];
+            }
             list = expandedList;
         }
 
@@ -25,7 +27,9 @@ public class MyArrayList <E> {
         
         if (size == list.length) {
             Object[] expandedList = new Object[list.length * 2];
-            System.arraycopy(list, 0, expandedList, 0, list.length);
+            for (int j = 0; j < list.length; j++) {
+                expandedList[j] = list[j];
+            }
             list = expandedList;
         }
 
@@ -59,11 +63,13 @@ public class MyArrayList <E> {
         }
 
         E removed = get(index);
-        int moved = size - index - 1;
-        if (moved > 0) {
-            System.arraycopy(list, index + 1, list, index, moved);
+
+        for (int i = index; i < size - 1; i++) {
+            list[i] = list[i + 1];
         }
-        list[--size] = null;
+
+        size--;
+        list[size] = null;
         return removed;
     }
 
@@ -107,5 +113,5 @@ public class MyArrayList <E> {
     public int size() {
         return size;
     }
-
+    
 }
