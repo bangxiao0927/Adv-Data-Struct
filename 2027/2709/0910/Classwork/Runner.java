@@ -1,8 +1,6 @@
 import java.util.Scanner;
 
 public class Runner {
-    private static int recursiveCalls;
-
     public static void main(String[] args) {
         MyArrayList<Integer> myNumbers = new MyArrayList<Integer>();
 
@@ -28,7 +26,7 @@ public class Runner {
                 System.out.print("Please enter a number from 1-6: ");
                 keyboard.next();
             }
-            
+
             choice = keyboard.nextInt();
 
             if (choice == 1) {
@@ -86,6 +84,8 @@ public class Runner {
             System.out.print(i == list.size() - 1 ? "\n" : ", ");
         }
     }
+
+    private static int recursiveCalls;
 
     private static int binarySearch(MyArrayList<Integer> list, int target,
                                     int low, int high) {
