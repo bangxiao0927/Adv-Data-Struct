@@ -1,16 +1,21 @@
-import java.util.Random;
 import java.util.Scanner;
 
 public class Runner {
     private static int recursiveCalls;
 
     public static void main(String[] args) {
-        MyArrayList<Integer> myNumbers = createRandomList(5000);
+        MyArrayList<Integer> myNumbers = new MyArrayList<Integer>();
+
+        // Add 5,000 random numbers from 0 through 9,999.
+        for (int i = 0; i < 5000; i++) {
+            myNumbers.add((int) (Math.random() * 10000));
+        }
         Scanner keyboard = new Scanner(System.in);
-        int choice;
+        Sort sort = new Sort();
+        int choice = -1;
         boolean sorted = false;
 
-        do {
+        while (choice != 6) {
             System.out.println("\n1. Display the list");
             System.out.println("2. Scramble the list");
             System.out.println("3. Bubble sort");
@@ -23,20 +28,21 @@ public class Runner {
                 System.out.print("Please enter a number from 1-6: ");
                 keyboard.next();
             }
+            
             choice = keyboard.nextInt();
 
             if (choice == 1) {
                 displayList(myNumbers);
             } else if (choice == 2) {
-                scramble(myNumbers);
+                sort.scramble(myNumbers);
                 sorted = false;
                 System.out.println("The list has been scrambled.");
             } else if (choice == 3) {
-                bubbleSort(myNumbers);
+                sort.bubbleSort(myNumbers);
                 sorted = true;
                 System.out.println("The list has been sorted with BubbleSort.");
             } else if (choice == 4) {
-                mergeSort(myNumbers);
+                sort.mergeSort(myNumbers);
                 sorted = true;
                 System.out.println("The list has been sorted with MergeSort.");
             } else if (choice == 5) {
@@ -64,24 +70,14 @@ public class Runner {
                 }
                 System.out.println("Recursive calls: " + recursiveCalls);
                 System.out.println("A binary search of 5,000 items takes at "
-                        + "most 14 recursive calls because 2^13 < 5000 < 2^14.");
+                        + "most 13 comparisons because 2^12 < 5000 < 2^13.");
             } else if (choice != 6) {
                 System.out.println("That option is not available.");
             }
-        } while (choice != 6);
+        }
 
         System.out.println("Goodbye!");
         keyboard.close();
-    }
-
-    private static MyArrayList<Integer> createRandomList(int size) {
-        Random random = new Random();
-        MyArrayList<Integer> list = new MyArrayList<>();
-
-        for (int i = 0; i < size; i++) {
-            list.add(random.nextInt(10000));
-        }
-        return list;
     }
 
     private static void displayList(MyArrayList<Integer> list) {
@@ -93,11 +89,11 @@ public class Runner {
 
     private static int binarySearch(MyArrayList<Integer> list, int target,
                                     int low, int high) {
-        recursiveCalls++;
-
         if (low > high) {
             return -1;
         }
+
+        recursiveCalls++;
 
         int middle = low + (high - low) / 2;
         int middleValue = list.get(middle);
