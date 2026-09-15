@@ -49,12 +49,12 @@ public class SLList<E> {
     public void add(int ind, E ele){
         Node<E> newNode = new Node<>(ele);
 
-        if (index == 0){
+        if (ind == 0){
             newNode.setNext(head);
             head = newNode;
         } else{
             Node<E> current = head;
-            for (int i = 0; i < index-1; i++){
+            for (int i = 0; i < ind-1; i++){
                 current = current.next();
             }
 
