@@ -1,6 +1,6 @@
-public class Node {
-    private String data;
-    private Node next;
+public class Node<E> {
+    private E data;
+    private Node<E> next;
 
 //     Instance Variables
 // - data : E - Generic data object
@@ -14,20 +14,24 @@ public class Node {
 // + setData(E) : void  - Set the data to what is passed in.
 
 
-    public Node(String data){
+    public Node(E data){
         this.data = data;
         next = null;
     }
 
-    public String get(){
+    public E get(){
         return data;
     }
 
-    public Node next(){
+    public Node<E> next(){
         return next;
     }
 
-    public void setNext(Node passed){
+    public void setNext(Node<E> passed){
         next = passed;
+    }
+
+    public void setData(E data){
+        this.data = data;
     }
 }
