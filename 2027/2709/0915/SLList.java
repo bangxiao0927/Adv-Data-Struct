@@ -9,6 +9,7 @@ public class SLList<E> {
     }
 
     public E get(int loc){
+        checkIndex(loc);
         Node<E> current = head;
         for (int i = 0; i < loc; i++){
             current = current.next();
@@ -17,10 +18,10 @@ public class SLList<E> {
     }
 
     public boolean contains(Object ele){
-        boolean check = false;
         Node<E> current = head;
         while (current != null){
-            if ((ele == null && current.get() == null) || (current.get().eqauls(ele))) {
+            if ((ele == null && current.get() == null) //data and the node is null, reached end
+                    || (current.get() != null && current.get().equals(ele))) { //node is not null and the current have data
                 return true;
             }
             current = current.next();
@@ -29,7 +30,7 @@ public class SLList<E> {
     }
 
     public boolean add(E ele){
-        Node<E> resultNode  = result Node<>(ele);
+        Node<E> resultNode = new Node<E>(ele);
 
         if (head == null){
             head = resultNode;
@@ -47,7 +48,11 @@ public class SLList<E> {
     }
 
     public void add(int ind, E ele){
-        Node<E> resultNode = result Node<>(ele);
+        if (ind < 0 || ind > size) {
+            throw new IndexOutOfBoundsException("Index: " + ind + ", size: " + size);
+        }
+
+        Node<E> resultNode = new Node<E>(ele);
 
         if (ind == 0){
             resultNode.setNext(head);
@@ -65,9 +70,10 @@ public class SLList<E> {
     }
 
     public E remove(int ind){
+        checkIndex(ind);
         E removed;
 
-        if (index ==0){
+        if (ind == 0){
             removed = head.get();
             head = head.next();
         }
@@ -85,7 +91,7 @@ public class SLList<E> {
         return removed;
     }
 
-    public boolean removed(Object obj){
+    public boolean remove(Object obj){
         if (head == null) return false;
 
         if (head.get() != null && head.get().equals(obj)){
@@ -96,7 +102,9 @@ public class SLList<E> {
 
         Node<E> current = head;
         while (current.next() != null){
-            if (current.next().get() != null && current.next().get().equals(obj)){
+            if ((current.next().get() == null && obj == null)
+                    || (current.next().get() != null
+                    && current.next().get().equals(obj))){
                 current.setNext(current.next().next());
                 size--;
                 return true;
@@ -107,6 +115,7 @@ public class SLList<E> {
     }
 
     public E set(int ind, E element){
+        checkIndex(ind);
         Node<E> current = head;
         for (int i = 0; i < ind; i++){
             current = current.next();
@@ -115,6 +124,10 @@ public class SLList<E> {
         E old = current.get();
         current.setData(element);
         return old;
+    }
+
+    public int size(){
+        return size;
     }
 
     //idek
@@ -136,5 +149,12 @@ public class SLList<E> {
         }
         result += "]";
         return result;
+    }
+
+    private void checkIndex(int index){
+        if (index < 0 || index >= size){
+            throw new IndexOutOfBoundsException("Index: " + index
+                    + ", size: " + size);
+        }
     }
 }
