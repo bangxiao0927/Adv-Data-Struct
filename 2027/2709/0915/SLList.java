@@ -29,17 +29,17 @@ public class SLList<E> {
     }
 
     public boolean add(E ele){
-        Node<E> newNode  = new Node<>(ele);
+        Node<E> resultNode  = result Node<>(ele);
 
         if (head == null){
-            head = newNode;
+            head = resultNode;
         }
         else{
             Node<E> current = head;
             while(current.next() != null){
                 current = current.next();
             }
-            current.setNext(newNode);
+            current.setNext(resultNode);
         }
 
         size++;
@@ -47,19 +47,19 @@ public class SLList<E> {
     }
 
     public void add(int ind, E ele){
-        Node<E> newNode = new Node<>(ele);
+        Node<E> resultNode = result Node<>(ele);
 
         if (ind == 0){
-            newNode.setNext(head);
-            head = newNode;
+            resultNode.setNext(head);
+            head = resultNode;
         } else{
             Node<E> current = head;
             for (int i = 0; i < ind-1; i++){
                 current = current.next();
             }
 
-            newNode.setNext(current.next());
-            current.setNext(newNode);
+            resultNode.setNext(current.next());
+            current.setNext(resultNode);
         }
         size++;
     }
@@ -123,18 +123,18 @@ public class SLList<E> {
             return "[]";
         } 
 
-        String new = "[";
+        String result = "[";
         Node<E> current = head;
 
         while (current != null){
-            new += current.get();
+            result += current.get();
             if (current.next() != null){
-                new += ", ";
+                result += ", ";
             }
 
             current = current.next();
         }
-        new += "]";
-        return new;
+        result += "]";
+        return result;
     }
 }
