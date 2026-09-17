@@ -1,6 +1,15 @@
 public class Runner{
     public static void main(String[] args){
+        SSList<Integer> theList = new <Integer>SLList();
+        for(int i = 0;i < 5000;i++) {
+            theList.add((int)(Math.random() * theList.size() + 1),(int)(Math.random() * 9998 + 1));
+        }
 
+        for(int i = 0;i < 5000;i++) {
+            System.out.print(theList.get(i) + "; ");
+        }
+
+        System.out.print(theList.size());
 
 
         boolean stop = false;
