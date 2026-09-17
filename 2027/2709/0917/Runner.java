@@ -2,26 +2,28 @@ import java.util.Scanner;
 
 public class Runner{
     public static void main(String[] args){
-        SSList<Integer> list = new <Integer>SLList();
+        SLList<Integer> list = new SLList<>();
         for(int i = 0;i < 5000;i++) {
-            list.add((int)(Math.random() * list.size() + 1),(int)(Math.random() * 9998 + 1));
+            int randomIndex = (int) (Math.random() * (list.size() + 1));
+            list.add(randomIndex, (int) (Math.random() * 9998 + 1));
         }
 
         for(int i = 0;i < 5000;i++) {
             System.out.print(list.get(i) + "; ");
         }
 
-        System.out.print(list.size());
+        System.out.println(list.size());
 
         Scanner sc = new Scanner(System.in);
 
         boolean stop = false;
 
-        System.out.println("Enter 1 to Display List, 2 to Scramble, 3 to Sort, 4 to Remove til Empty, and 5 to Quit");
-        int choice = sc.nextInt();
         while(!stop){
+            System.out.println("Enter 1 to Display List, 2 to Scramble, 3 to Sort, 4 to Remove til Empty, and 5 to Quit");
+            int choice = sc.nextInt();
+
             if (choice == 1){
-                System.out.println(theList.toString());
+                System.out.println(list.toString());
             } else if (choice == 2){
                 for (int i = 0; i < list.size(); i++) {
                     int randomIndex = (int) (Math.random() * list.size());
