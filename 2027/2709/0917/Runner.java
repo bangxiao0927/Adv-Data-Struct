@@ -21,7 +21,7 @@ public class Runner{
         int choice = sc.nextInt();
         while(!stop){
             if (choice == 1){
-                System.out.println(list.toString());
+                System.out.println(theList.toString());
             } else if (choice == 2){
                 for (int i = 0; i < list.size(); i++) {
                     int randomIndex = (int) (Math.random() * list.size());
