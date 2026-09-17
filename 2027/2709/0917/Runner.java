@@ -1,19 +1,24 @@
+import java.util.Scanner;
+
 public class Runner{
     public static void main(String[] args){
-        SSList<Integer> theList = new <Integer>SLList();
+        SSList<Integer> list = new <Integer>SLList();
         for(int i = 0;i < 5000;i++) {
-            theList.add((int)(Math.random() * theList.size() + 1),(int)(Math.random() * 9998 + 1));
+            list.add((int)(Math.random() * list.size() + 1),(int)(Math.random() * 9998 + 1));
         }
 
         for(int i = 0;i < 5000;i++) {
-            System.out.print(theList.get(i) + "; ");
+            System.out.print(list.get(i) + "; ");
         }
 
-        System.out.print(theList.size());
+        System.out.print(list.size());
 
+        Scanner sc = new Scanner(System.in);
 
         boolean stop = false;
 
+        System.out.println("Enter 1 to Display List, 2 to Scramble, 3 to Sort, 4 to Remove til Empty, and 5 to Quit");
+        int choice = sc.nextInt();
         while(!stop){
             if (choice == 1){
                 System.out.println(list.toString());
