@@ -37,10 +37,11 @@ public class Runner{
             } else if (choice == 4){
                 while (list.size() > 0){
                     int rand = (int) (Math.random() * list.size());
-                    
+                    list.remove(rand);
                 }
             } else{
-
+                System.out.println("Quitting");
+                stop = true;
             }
         }
     }
