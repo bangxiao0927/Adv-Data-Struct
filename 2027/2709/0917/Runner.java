@@ -1,6 +1,6 @@
 public class Runner{
     public static void main(String[] args){
-        SSList<Integer> theList = new <Integer>SLList();
+        SStheList<Integer> theList = new <Integer>SLtheList();
         for(int i = 0;i < 5000;i++) {
             theList.add((int)(Math.random() * theList.size() + 1),(int)(Math.random() * 9998 + 1));
         }
@@ -16,7 +16,7 @@ public class Runner{
 
         while(!stop){
             if (choice == 1){
-                System.out.println(list.toString());
+                System.out.println(theList.toString());
             } else if (choice == 2){
                 for (int i = 0; i < list.size(); i++) {
                     int randomIndex = (int) (Math.random() * list.size());
