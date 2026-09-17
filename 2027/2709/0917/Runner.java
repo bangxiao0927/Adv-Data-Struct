@@ -32,15 +32,7 @@ public class Runner{
                     list.set(randomIndex, temp);
                 }
             } else if (choice == 3){
-                for (int pass = 0; pass < list.size() - 1; pass++) {
-                    for (int i = 0; i < list.size() - 1 - pass; i++) {
-                        if (list.get(i) > list.get(i + 1)) {
-                            int temp = list.get(i);
-                            list.set(i, list.get(i + 1));
-                            list.set(i + 1, temp);
-                        }
-                    }
-                }
+                quickSort(list, 0, list.size() - 1);
             } else if (choice == 4){
                 while (list.size() > 0){
                     int rand = (int) (Math.random() * list.size());
@@ -50,6 +42,40 @@ public class Runner{
                 System.out.println("Quitting");
                 stop = true;
             }
+        }
+    }
+
+    private static void quickSort(SLList<Integer> list, int low, int high) {
+        if (low >= high) {
+            return;
+        }
+
+        int left = low;
+        int right = high;
+        int pivot = list.get(low + (high - low) / 2);
+
+        while (left <= right) {
+            while (list.get(left) < pivot) {
+                left++;
+            }
+            while (list.get(right) > pivot) {
+                right--;
+            }
+
+            if (left <= right) {
+                int temp = list.get(left);
+                list.set(left, list.get(right));
+                list.set(right, temp);
+                left++;
+                right--;
+            }
+        }
+
+        if (low < right) {
+            quickSort(list, low, right);
+        }
+        if (left < high) {
+            quickSort(list, left, high);
         }
     }
 }
