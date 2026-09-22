@@ -13,6 +13,10 @@ public class Node<E> {
         return data;
     }
 
+    public void setData(E newData){
+        data = newData;
+    }
+
     public Node<E> next(){
         return next;
     }
