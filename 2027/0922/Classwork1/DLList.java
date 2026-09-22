@@ -9,16 +9,16 @@ public class DLList {
         size = 0;
     }
 
-    private Node<E> getNode(int index) {
+    private Node<E> getNode(int ind) {
         Node<E> curr;
-        if (index < size / 2) {
+        if (ind < size / 2) {
             curr = head;
-            for (int i = 0; i < index; i++) {
+            for (int i = 0; i < ind; i++) {
                 curr = curr.next;
             }
         } else {
             curr = tail;
-            for (int i = size - 1; i > index; i--) {
+            for (int i = size - 1; i > ind; i--) {
                 curr = curr.prev;
             }
         }
@@ -40,7 +40,7 @@ public class DLList {
     }
 
     public void add(int ind, E ele){
-        if (index == 0){
+        if (ind == 0){
             Node<E> newNode = newNode<>(e);
             
             if (head == null){
@@ -50,7 +50,7 @@ public class DLList {
                 head.prv = newNode;
                 head = newNode;
             }
-        } else if (index == size){
+        } else if (ind == size){
             add(e);
             return;
         } else{
@@ -67,6 +67,7 @@ public class DLList {
 
     //idk
     public E get(int ind){
+        return getNode(ind).data;
     }
 
     public boolean contains(Object o){
@@ -85,9 +86,25 @@ public class DLList {
         }
         return false;
     }
-    ///idk
     public E remove(int ind){
-        Node<E> tar = 
+        Node<E> target = getNode(ind);
+        E oldData = target.data;
+
+        if (size == 1) {
+            head = null;
+            tail = null;
+        } else if (target == head) {
+            head = head.next;
+            head.prev = null;
+        } else if (target == tail) {
+            tail = tail.prev;
+            tail.next = null;
+        } else {
+            target.prev.next = target.next;
+            target.next.prev = target.prev;
+        }
+        size--;
+        return oldData;
     }
 
     public int size(){
@@ -95,8 +112,11 @@ public class DLList {
     }
 
     //idk
-    public E set(int index, E ele){
-
+    public E set(int ind, E ele){
+        Node<E> target = getNode(ind);
+        E oldData = target.data;
+        target.data = element;
+        return oldData;
     }
 
     public String toString() {
