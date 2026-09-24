@@ -1,105 +1,123 @@
+// Doubly linked list. head is the first node and tail is the last one.
 public class DLList<E> {
     private Node<E> head;
     private Node<E> tail;
     private int size;
 
-    public DLList() { }
-
-    private void checkElementIndex(int index) {
-        if (index < 0 || index >= size) throw new IndexOutOfBoundsException("Index: " + index + ", size: " + size);
+    public DLList() {
+        head = null;
+        tail = null;
+        size = 0;
     }
 
-    private void checkPositionIndex(int index) {
-        if (index < 0 || index > size) throw new IndexOutOfBoundsException("Index: " + index + ", size: " + size);
-    }
-
-    private Node<E> getNode(int index) {
-        checkElementIndex(index);
-        if (index < size / 2) {
-            Node<E> current = head;
-            for (int i = 0; i < index; i++) current = current.next();
-            return current;
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("index " + index + ", size " + size);
         }
-        Node<E> current = tail;
-        for (int i = size - 1; i > index; i--) current = current.prev();
-        return current;
+    }
+
+    // walks from the closer end to get to the node at index
+    private Node<E> getNode(int index) {
+        checkIndex(index);
+        Node<E> cur;
+        if (index < size / 2) {
+            cur = head;
+            for (int i = 0; i < index; i++) {
+                cur = cur.next();
+            }
+        } else {
+            cur = tail;
+            for (int i = size - 1; i > index; i--) {
+                cur = cur.prev();
+            }
+        }
+        return cur;
     }
 
     public boolean add(E element) {
-        Node<E> newNode = new Node<>(element);
-        if (tail == null) head = tail = newNode;
-        else { tail.setNext(newNode); newNode.setPrev(tail); tail = newNode; }
+        Node<E> newNode = new Node<E>(element);
+        if (tail == null) {
+            head = newNode;
+        } else {
+            tail.setNext(newNode);
+            newNode.setPrev(tail);
+        }
+        tail = newNode;
         size++;
         return true;
     }
 
     public void add(int index, E element) {
-        checkPositionIndex(index);
-        if (index == size) { add(element); return; }
-        Node<E> current = getNode(index);
-        Node<E> newNode = new Node<>(element);
-        newNode.setNext(current);
-        newNode.setPrev(current.prev());
-        if (current.prev() == null) head = newNode;
-        else current.prev().setNext(newNode);
-        current.setPrev(newNode);
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("index " + index + ", size " + size);
+        }
+        if (index == size) {
+            add(element);
+            return;
+        }
+        Node<E> cur = getNode(index);
+        Node<E> newNode = new Node<E>(element);
+        newNode.setNext(cur);
+        newNode.setPrev(cur.prev());
+        if (cur.prev() == null) {
+            head = newNode;
+        } else {
+            cur.prev().setNext(newNode);
+        }
+        cur.setPrev(newNode);
         size++;
     }
 
-    public E get(int index) { return getNode(index).get(); }
+    public E get(int index) {
+        return getNode(index).get();
+    }
 
     public E set(int index, E element) {
-        Node<E> target = getNode(index);
-        E oldData = target.get();
-        target.setData(element);
-        return oldData;
+        Node<E> node = getNode(index);
+        E old = node.get();
+        node.setData(element);
+        return old;
     }
 
-    public boolean contains(Object object) {
-        Node<E> current = head;
-        while (current != null) {
-            if (object == null ? current.get() == null : object.equals(current.get())) return true;
-            current = current.next();
-        }
-        return false;
-    }
-
-    public boolean remove(Object object) {
-        Node<E> current = head;
-        while (current != null) {
-            if (object == null ? current.get() == null : object.equals(current.get())) {
-                unlink(current);
+    public boolean contains(Object obj) {
+        Node<E> cur = head;
+        while (cur != null) {
+            if (cur.get().equals(obj)) {
                 return true;
             }
-            current = current.next();
+            cur = cur.next();
         }
         return false;
     }
 
-    public E remove(int index) { return unlink(getNode(index)); }
-
-    private E unlink(Node<E> target) {
-        Node<E> previous = target.prev();
-        Node<E> next = target.next();
-        if (previous == null) head = next; else previous.setNext(next);
-        if (next == null) tail = previous; else next.setPrev(previous);
+    public E remove(int index) {
+        Node<E> node = getNode(index);
+        if (node.prev() == null) {
+            head = node.next();
+        } else {
+            node.prev().setNext(node.next());
+        }
+        if (node.next() == null) {
+            tail = node.prev();
+        } else {
+            node.next().setPrev(node.prev());
+        }
         size--;
-        return target.get();
+        return node.get();
     }
 
-    public void clear() { head = null; tail = null; size = 0; }
-    public boolean isEmpty() { return size == 0; }
-    public int size() { return size; }
+    public int size() {
+        return size;
+    }
 
-    @Override
+    // a space after every element so the numbers do not run together
     public String toString() {
-        StringBuilder result = new StringBuilder("[");
-        Node<E> current = head;
-        while (current != null) {
-            result.append(current.get());
-            if (current.next() != null) result.append(", ");
-            current = current.next();
+        String result = "";
+        Node<E> cur = head;
+        while (cur != null) {
+            result += cur.get() + " ";
+            cur = cur.next();
         }
-        return result.append("]").toString();
+        return result;
     }
 }
