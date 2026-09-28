@@ -5,8 +5,8 @@ public class DLList<E> {
     private int size;
 
     public DLList() {
-        head = null;
-        tail = null;
+        head = new Node<E>(null);
+        tail = new Node<E>(null);
         size = 0;
     }
 
