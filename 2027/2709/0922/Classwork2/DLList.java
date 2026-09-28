@@ -7,6 +7,10 @@ public class DLList<E> {
     public DLList() {
         head = new Node<E>(null);
         tail = new Node<E>(null);
+        head.setNext(tail);
+		head.setPrev(null);
+		tail.setNext(null);
+		tail.setPrev(head);
         size = 0;
     }
 
@@ -52,13 +56,13 @@ public class DLList<E> {
 
     public boolean add(E element) {
         Node<E> newNode = new Node<E>(element);
-        if (tail == null) {
-            head = newNode;
-        } else {
-            tail.setNext(newNode);
-            newNode.setPrev(tail);
-        }
-        tail = newNode;
+        Node<E> before = tail.prev();
+        Node<E> after = tail;
+        before.setNext(newNode);
+        newNode.setNext(after);
+        newNode.setPrev(before);
+        after.setPrev(newNode);
+
         size++;
         return true;
     }
@@ -67,20 +71,29 @@ public class DLList<E> {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("index " + index + ", size " + size);
         }
-        if (index == size) {
-            add(element);
-            return;
-        }
-        Node<E> cur = getNode(index);
-        Node<E> newNode = new Node<E>(element);
-        newNode.setNext(cur);
-        newNode.setPrev(cur.prev());
-        if (cur.prev() == null) {
-            head = newNode;
+
+        Node<E> current;
+        if (index <= size / 2) {
+            // Search from the front
+            current = head.next();          // first real node (index 0)
+            for (int j = 0; j < index; j++) {
+                current = current.next();
+            }
         } else {
-            cur.prev().setNext(newNode);
+            // Search from the back
+            current = tail.prev();          // last real node (index size-1)
+            for (int j = size - 1; j > index; j--) {
+                current = current.prev();
+            }
         }
-        cur.setPrev(newNode);
+
+        Node<E> newNode = new Node<E>(element);
+        Node<E> before = current.prev();
+        before.setNext(newNode);
+        newNode.setPrev(before);
+        newNode.setNext(current);
+        current.setPrev(newNode);
+
         size++;
     }
 
