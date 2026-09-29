@@ -1,4 +1,5 @@
-// Doubly linked list. head is the first node and tail is the last one.
+// Doubly linked list. head and tail are empty sentinel nodes, so the real data
+// lives between them: head.next() is index 0 and tail.prev() is index size-1.
 public class DLList<E> {
     private Node<E> head;
     private Node<E> tail;
@@ -8,9 +9,9 @@ public class DLList<E> {
         head = new Node<E>(null);
         tail = new Node<E>(null);
         head.setNext(tail);
-		head.setPrev(null);
-		tail.setNext(null);
-		tail.setPrev(head);
+        head.setPrev(null);
+        tail.setNext(null);
+        tail.setPrev(head);
         size = 0;
     }
 
@@ -25,12 +26,12 @@ public class DLList<E> {
         checkIndex(index);
         Node<E> cur;
         if (index < size / 2) {
-            cur = head;
+            cur = head.next();
             for (int i = 0; i < index; i++) {
                 cur = cur.next();
             }
         } else {
-            cur = tail;
+            cur = tail.prev();
             for (int i = size - 1; i > index; i--) {
                 cur = cur.prev();
             }
@@ -40,16 +41,8 @@ public class DLList<E> {
 
     // takes a node out of the chain and gives back its data
     private E unlink(Node<E> node) {
-        if (node.prev() == null) {
-            head = node.next();
-        } else {
-            node.prev().setNext(node.next());
-        }
-        if (node.next() == null) {
-            tail = node.prev();
-        } else {
-            node.next().setPrev(node.prev());
-        }
+        node.prev().setNext(node.next());
+        node.next().setPrev(node.prev());
         size--;
         return node.get();
     }
@@ -73,7 +66,9 @@ public class DLList<E> {
         }
 
         Node<E> current;
-        if (index <= size / 2) {
+        if (index == size) {
+            current = tail;                 // one past the last node
+        } else if (index <= size / 2) {
             // Search from the front
             current = head.next();          // first real node (index 0)
             for (int j = 0; j < index; j++) {
@@ -109,8 +104,8 @@ public class DLList<E> {
     }
 
     public boolean contains(Object obj) {
-        Node<E> cur = head;
-        while (cur != null) {
+        Node<E> cur = head.next();
+        while (cur != tail) {
             if (cur.get().equals(obj)) {
                 return true;
             }
@@ -124,8 +119,8 @@ public class DLList<E> {
     }
 
     public boolean remove(Object obj) {
-        Node<E> cur = head;
-        while (cur != null) {
+        Node<E> cur = head.next();
+        while (cur != tail) {
             if (cur.get().equals(obj)) {
                 unlink(cur);
                 return true;
@@ -135,9 +130,10 @@ public class DLList<E> {
         return false;
     }
 
+    // point the sentinels back at each other, which drops every real node
     public void clear() {
-        head = null;
-        tail = null;
+        head.setNext(tail);
+        tail.setPrev(head);
         size = 0;
     }
 
@@ -148,8 +144,8 @@ public class DLList<E> {
     // every element already ends with a new line, so they stack up one per line
     public String toString() {
         String result = "";
-        Node<E> cur = head;
-        while (cur != null) {
+        Node<E> cur = head.next();
+        while (cur != tail) {
             result += cur.get();
             cur = cur.next();
         }
