@@ -65,22 +65,7 @@ public class DLList<E> {
             throw new IndexOutOfBoundsException("index " + index + ", size " + size);
         }
 
-        Node<E> current;
-        if (index == size) {
-            current = tail;                 // one past the last node
-        } else if (index <= size / 2) {
-            // Search from the front
-            current = head.next();          // first real node (index 0)
-            for (int j = 0; j < index; j++) {
-                current = current.next();
-            }
-        } else {
-            // Search from the back
-            current = tail.prev();          // last real node (index size-1)
-            for (int j = size - 1; j > index; j--) {
-                current = current.prev();
-            }
-        }
+        Node<E> current = getNode(index);
 
         Node<E> newNode = new Node<E>(element);
         Node<E> before = current.prev();
