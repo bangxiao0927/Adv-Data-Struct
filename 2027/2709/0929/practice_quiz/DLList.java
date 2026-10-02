@@ -53,6 +53,7 @@ public class DLList<E> {
         Node<E> after = currentNode.next();
         before.setNext(after);
         after.setPrev(before);
+        size--;
         return result;
     }
 
