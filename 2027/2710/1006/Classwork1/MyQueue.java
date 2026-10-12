@@ -1,27 +1,39 @@
 public class MyQueue<E> {
     private DLList<E> myQueue;
 
-    public MyQueue(){
+    public MyQueue() {
         myQueue = new DLList<>();
     }
 
-    public boolean add(E item){
-        myQueue.addLast(item);
+    // O(1) - Uses your existing add() which appends to the tail
+    public boolean add(E item) {
+        myQueue.add(item);
         return true;
     }
 
-    public E poll(){
-        if (isEmpty()){
+    // O(1) - Removes from the very front of the list (index: 0)
+    public E poll() {
+        if (isEmpty()) {
             return null;
         }
-        return myQueue.getFirst();
+        return myQueue.remove(0);
     }
 
-    public int size(){
+    // O(1) - Looks at the very front of the list (index: 0)
+    public E peek() {
+        if (isEmpty()) {
+            return null;
+        }
+        return myQueue.get(0);
+    }
+
+    // O(1)
+    public int size() {
         return myQueue.size();
     }
 
-    public boolean isEmpty(){
-        return myQueue.isEmpty();
+    // O(1)
+    public boolean isEmpty() {
+        return myQueue.size() == 0;
     }
 }

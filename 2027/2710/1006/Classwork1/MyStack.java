@@ -1,34 +1,39 @@
-public class MyStack<E>{
-    private DLList<E> myStack;
+public class MyStack<E> { 
+    private DLList<E> myStack; 
 
-    public MyStack(){
+    public MyStack(){ 
         myStack = new DLList<>();
-    }
+    } 
 
-    public E push(E item){
-        myStack.addLast(item);
+    // O(1) - Uses your existing add() which appends to the tail
+    public E push(E item) {
+        myStack.add(item);
         return item;
     }
 
-    public E pop(){
-        if (empty()){
-            return null;
+    // O(1) - Removes from the very end of the list (index: size - 1)
+    public E pop() {
+        if (empty()) {
+            return null; 
         }
-        return myStack.removeLast();
+        return myStack.remove(myStack.size() - 1);
     }
 
-    public E peek(){
-        if (empty()){
+    // O(1) - Looks at the very end of the list (index: size - 1)
+    public E peek() {
+        if (empty()) {
             return null;
         }
-        return myStack.getLast();
+        return myStack.get(myStack.size() - 1);
     }
 
-    public int size(){
+    // O(1)
+    public int size() {
         return myStack.size();
     }
 
-    public boolean empty(){
-        return myStack.isEmpty();
+    // O(1)
+    public boolean empty() {
+        return myStack.size() == 0; 
     }
 }

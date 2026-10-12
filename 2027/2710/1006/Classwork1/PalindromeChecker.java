@@ -1,6 +1,6 @@
 public class PalindromeChecker {
     public static void main(String[] args) {
-        // Test cases provided in the prompt
+        // Test strings from your prompt
         String[] testStrings = {
             "one two three two one",
             "1 2 3 4 5",
@@ -10,32 +10,29 @@ public class PalindromeChecker {
 
         for (String str : testStrings) {
             boolean isPalindrome = checkPalindromeList(str);
-            System.out.println('"' + str + "\" -> " + isPalindrome + " (it is " + (isPalindrome ? "" : "not ") + "a palinlist)");
+            System.out.println(isPalindrome);
         }
     }
 
     public static boolean checkPalindromeList(String input) {
-        // Split the string into an array of words by space
         String[] words = input.split(" ");
 
         MyStack<String> stack = new MyStack<>();
         MyQueue<String> queue = new MyQueue<>();
 
-        // Add each word to both data structures
+        // Add each word to both the Queue and the Stack
         for (String word : words) {
             stack.push(word);
             queue.add(word);
         }
 
-        // Compare elements sequentially
-        // Since both have the same length, we can loop through the size
+        // Pop and Poll each of them, comparing results sequentially
         while (!stack.empty() && !queue.isEmpty()) {
             String fromStack = stack.pop();
             String fromQueue = queue.poll();
 
-            // If any word mismatch occurs, it's not a palindrome list
             if (!fromStack.equals(fromQueue)) {
-                return false;
+                return false; 
             }
         }
 
