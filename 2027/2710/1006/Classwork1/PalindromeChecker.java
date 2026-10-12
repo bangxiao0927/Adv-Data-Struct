@@ -1,6 +1,5 @@
 public class PalindromeChecker {
     public static void main(String[] args) {
-        // Test strings from your prompt
         String[] testStrings = {
             "one two three two one",
             "1 2 3 4 5",
