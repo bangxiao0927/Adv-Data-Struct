@@ -1,56 +1,39 @@
-// A last-in first-out stack. push puts a value on the top and pop takes the
-// most recent one back off.
-public class MyStack<E> {
-    private static final int INITIAL_CAPACITY = 10;
+public class MyStack<E> { 
+    private DLList<E> myStack; 
 
-    private Object[] elements;
-    private int size;
+    public MyStack(){ 
+        myStack = new DLList<>();
+    } 
 
-    public MyStack() {
-        elements = new Object[INITIAL_CAPACITY];
-        size = 0;
+    // O(1) - Uses your existing add() which appends to the tail
+    public E push(E item) {
+        myStack.add(item);
+        return item;
     }
 
-    public void push(E value) {
-        ensureCapacity();
-        elements[size] = value;
-        size++;
-    }
-
-    @SuppressWarnings("unchecked")
+    // O(1) - Removes from the very end of the list (index: size - 1)
     public E pop() {
         if (isEmpty()) {
-            throw new IllegalStateException("Cannot pop from an empty stack");
+            return null; 
         }
-        size--;
-        E value = (E) elements[size];
-        elements[size] = null;
-        return value;
+        return myStack.remove(myStack.size() - 1);
     }
 
-    @SuppressWarnings("unchecked")
+    // O(1) - Looks at the very end of the list (index: size - 1)
     public E peek() {
         if (isEmpty()) {
-            throw new IllegalStateException("Cannot peek at an empty stack");
+            return null;
         }
-        return (E) elements[size - 1];
+        return myStack.get(myStack.size() - 1);
     }
 
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
+    // O(1)
     public int size() {
-        return size;
+        return myStack.size();
     }
 
-    private void ensureCapacity() {
-        if (size == elements.length) {
-            Object[] largerArray = new Object[elements.length * 2];
-            for (int i = 0; i < elements.length; i++) {
-                largerArray[i] = elements[i];
-            }
-            elements = largerArray;
-        }
+    // O(1)
+    public boolean isEmpty() {
+        return myStack.size() == 0; 
     }
 }
