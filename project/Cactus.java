@@ -10,6 +10,10 @@ public class Cactus extends Scenery {
         super(x, y);
     }
 
+    public String getName() {
+        return "Cactus";
+    }
+
     public int getWidth() {
         return WIDTH;
     }

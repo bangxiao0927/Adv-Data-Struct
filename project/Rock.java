@@ -10,6 +10,10 @@ public class Rock extends Scenery {
         super(x, y);
     }
 
+    public String getName() {
+        return "Rock";
+    }
+
     public int getWidth() {
         return WIDTH;
     }

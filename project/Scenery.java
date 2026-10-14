@@ -19,7 +19,20 @@ public abstract class Scenery {
         return y;
     }
 
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    // The rectangular bounds are also the click target.
+    public boolean contains(int mouseX, int mouseY) {
+        return mouseX >= x && mouseX < x + getWidth()
+            && mouseY >= y && mouseY < y + getHeight();
+    }
+
     // Every item reports its own size so the Screen can place it on the sand.
+    public abstract String getName();
+
     public abstract int getWidth();
 
     public abstract int getHeight();

@@ -10,6 +10,10 @@ public class Tumbleweed extends Scenery {
         super(x, y);
     }
 
+    public String getName() {
+        return "Tumbleweed";
+    }
+
     public int getWidth() {
         return WIDTH;
     }
