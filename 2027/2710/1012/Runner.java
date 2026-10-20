@@ -24,7 +24,7 @@
 // Hint: Use String[] words = "abc cde fgh ijk".split(" "); to create a list from a string separated by a space.
 
 import java.util.HashSet;
-import java.util.TreeSet;
+import java.util.Set;
 
 public class Runner {
     public static void main(String[] args) {
@@ -47,8 +47,8 @@ public class Runner {
             }
         }
         
-        System.out.println("Odds without duplicates: " + new TreeSet<>(odds));
-        System.out.println("Evens without duplicates: " + new TreeSet<>(evens));
+        System.out.println("Odds without duplicates: " + odds);
+        System.out.println("Evens without duplicates: " + evens);
 
         String[] list1 = "1 5 9 4 6 8 12 1".split(" ");
         String[] list2 = "6 5 8 9 11 7 10 11".split(" ");
@@ -56,8 +56,15 @@ public class Runner {
         HashSet<Integer> firstSet = toIntegerSet(list1);
         HashSet<Integer> secondSet = toIntegerSet(list2);
         
-        firstSet.retainAll(secondSet);
-        System.out.println("Duplicates between the two sets: " + new TreeSet<>(firstSet));
+        Set<Integer> duplicates = new HashSet<>();
+
+        for (int value : firstSet) {
+            if (secondSet.contains(value)) {
+                duplicates.add(value);
+            }
+        }
+
+        System.out.println("Duplicates between the two sets: " + duplicates);
     }
 
     private static void printUniqueAndDuplicates(String[] values) {
@@ -72,8 +79,8 @@ public class Runner {
             }
         }
 
-        System.out.println("Uniques: " + new TreeSet<>(uniques));
-        System.out.println("Duplicates: " + new TreeSet<>(duplicates));
+        System.out.println("Uniques: " + uniques);
+        System.out.println("Duplicates: " + duplicates);
     }
 
     private static HashSet<Integer> toIntegerSet(String[] values) {
