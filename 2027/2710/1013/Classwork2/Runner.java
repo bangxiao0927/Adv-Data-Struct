@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Runner2 {
+public class Runner {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         MyHashSet<Student> students = new MyHashSet<Student>();

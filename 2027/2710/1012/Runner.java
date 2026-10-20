@@ -26,72 +26,58 @@
 import java.util.HashSet;
 import java.util.TreeSet;
 
-public class Runenr {
+public class Runner {
     public static void main(String[] args) {
-        // Find the unique and repeated letters.
         String[] letters = "a b c d e f g h a b c d e f g h i j k".split(" ");
         printUniqueAndDuplicates(letters);
 
-        // Find the unique and repeated words.
         String[] words = "one two three one two three six seven one two".split(" ");
         printUniqueAndDuplicates(words);
 
-        // Put the numbers into odd and even sets.
         String[] numbers = "3 5 4 7 5 17 29 17 4 6 56 72 6".split(" ");
-        HashSet<Integer> odds;
-        odds = new HashSet<Integer>();
-        HashSet<Integer> evens;
-        evens = new HashSet<Integer>();
+        HashSet<Integer> odds = new HashSet<>();
+        HashSet<Integer> evens = new HashSet<>();
 
         for (String number : numbers) {
-            int currentNumber = Integer.parseInt(number);
-            if (currentNumber % 2 == 0) {
-                evens.add(currentNumber);
+            int value = Integer.parseInt(number);
+            if (value % 2 == 0) {
+                evens.add(value);
             } else {
-                odds.add(currentNumber);
+                odds.add(value);
             }
         }
+        
+        System.out.println("Odds without duplicates: " + new TreeSet<>(odds));
+        System.out.println("Evens without duplicates: " + new TreeSet<>(evens));
 
-        System.out.println("Odds without duplicates: " + new TreeSet<Integer>(odds));
-        System.out.println("Evens without duplicates: " + new TreeSet<Integer>(evens));
-
-        // Find the numbers that are in both lists.
         String[] list1 = "1 5 9 4 6 8 12 1".split(" ");
         String[] list2 = "6 5 8 9 11 7 10 11".split(" ");
+
         HashSet<Integer> firstSet = toIntegerSet(list1);
         HashSet<Integer> secondSet = toIntegerSet(list2);
-
-        HashSet<Integer> commonNumbers;
-        commonNumbers = new HashSet<Integer>();
-        for (int number : firstSet) {
-            if (secondSet.contains(number)) {
-                commonNumbers.add(number);
-            }
-        }
-        System.out.println("Duplicates between the two sets: " + new TreeSet<Integer>(commonNumbers));
+        
+        firstSet.retainAll(secondSet);
+        System.out.println("Duplicates between the two sets: " + new TreeSet<>(firstSet));
     }
 
     private static void printUniqueAndDuplicates(String[] values) {
-        HashSet<String> uniques;
-        uniques = new HashSet<String>();
-        HashSet<String> duplicates;
-        duplicates = new HashSet<String>();
+        HashSet<String> seen = new HashSet<>();
+        HashSet<String> uniques = new HashSet<>();
+        HashSet<String> duplicates = new HashSet<>();
 
         for (String value : values) {
-            if (uniques.contains(value)) {
+            uniques.add(value);
+            if (!seen.add(value)) {
                 duplicates.add(value);
-            } else {
-                uniques.add(value);
             }
         }
 
-        System.out.println("Uniques: " + new TreeSet<String>(uniques));
-        System.out.println("Duplicates: " + new TreeSet<String>(duplicates));
+        System.out.println("Uniques: " + new TreeSet<>(uniques));
+        System.out.println("Duplicates: " + new TreeSet<>(duplicates));
     }
 
     private static HashSet<Integer> toIntegerSet(String[] values) {
-        HashSet<Integer> result;
-        result = new HashSet<Integer>();
+        HashSet<Integer> result = new HashSet<>();
         for (String value : values) {
             result.add(Integer.parseInt(value));
         }
