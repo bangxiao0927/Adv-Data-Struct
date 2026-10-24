@@ -22,10 +22,6 @@ public class Student {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof Student)) {
-            return false;
-        }
-
         Student other = (Student) obj;
         return name.charAt(0) == other.name.charAt(0)
                 && age == other.age;

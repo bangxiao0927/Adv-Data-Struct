@@ -67,7 +67,5 @@ public class Runner {
                 System.out.println("Invalid choice.");
             }
         }
-
-        input.close();
     }
 }
