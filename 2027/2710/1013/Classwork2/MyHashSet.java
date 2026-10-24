@@ -1,4 +1,4 @@
-// A hash set that uses an array and linear probing to handle collisions.
+// A simple hash set. It uses an array to store values.
 public class MyHashSet<E> {
     private static final int INITIAL_CAPACITY = 10_007;
     private static final double MAX_LOAD_FACTOR = 0.70;
@@ -11,14 +11,14 @@ public class MyHashSet<E> {
         size = 0;
     }
 
-    // Adds the element if it is not already in the set.
+    // Add a value. A set does not allow duplicates.
     public boolean add(E element) {
-        if (element == null || findIndex(element) >= 0) {
+        if (element == null || contains(element)) {
             return false;
         }
 
         if (size + 1 > hashArray.length * MAX_LOAD_FACTOR) {
-            resize(hashArray.length * 2 + 1);
+            resize();
         }
         insert(element);
         return true;
@@ -30,32 +30,27 @@ public class MyHashSet<E> {
         size = 0;
     }
 
-    // Checks if the set has this element.
     public boolean contains(Object element) {
         return element != null && findIndex(element) >= 0;
     }
 
     // Removes the element if it is in the set.
     public boolean remove(Object element) {
-        int index;
-        if (element == null) {
-            index = -1;
-        } else {
-            index = findIndex(element);
-        }
+        int index = element == null ? -1 : findIndex(element);
         if (index < 0) {
             return false;
         }
 
-        // Reinsert the rest of this group so searches still work after the gap.
+        // Reinsert the values after the empty spot.
+        // Otherwise, a search could stop at the empty spot too early.
         hashArray[index] = null;
         size--;
         int next = (index + 1) % hashArray.length;
         while (hashArray[next] != null) {
-            Object displaced = hashArray[next];
+            Object value = hashArray[next];
             hashArray[next] = null;
             size--;
-            insert(displaced);
+            insert(value);
             next = (next + 1) % hashArray.length;
         }
         return true;
@@ -65,26 +60,23 @@ public class MyHashSet<E> {
         return size;
     }
 
-    // Copies the set's elements into a doubly linked list.
+    // Copy the set's values into a doubly linked list.
     public DLList<E> toDLList() {
-        DLList<E> items = new DLList<E>();
+        DLList<E> list = new DLList<E>();
         for (Object item : hashArray) {
             if (item != null) {
                 @SuppressWarnings("unchecked")
                 E element = (E) item;
-                items.add(element);
+                list.add(element);
             }
         }
-        return items;
+        return list;
     }
 
     private int findIndex(Object element) {
-        int index = bucketIndex(element.hashCode());
-        for (int probes = 0; probes < hashArray.length; probes++) {
+        int index = bucketIndex(element);
+        while (hashArray[index] != null) {
             Object current = hashArray[index];
-            if (current == null) {
-                return -1;
-            }
             if (current.equals(element)) {
                 return index;
             }
@@ -94,7 +86,7 @@ public class MyHashSet<E> {
     }
 
     private void insert(Object element) {
-        int index = bucketIndex(element.hashCode());
+        int index = bucketIndex(element);
         while (hashArray[index] != null) {
             index = (index + 1) % hashArray.length;
         }
@@ -102,22 +94,19 @@ public class MyHashSet<E> {
         size++;
     }
 
-    private int bucketIndex(int hashCode) {
-        return Math.floorMod(hashCode, hashArray.length);
+    private int bucketIndex(Object element) {
+        return Math.floorMod(element.hashCode(), hashArray.length);
     }
 
-    private void resize(int newCapacity) {
+    // Make a bigger array and add every old value to it again.
+    private void resize() {
         Object[] oldArray = hashArray;
-        hashArray = new Object[newCapacity];
-        int oldSize = size;
+        hashArray = new Object[oldArray.length * 2 + 1];
         size = 0;
         for (Object item : oldArray) {
             if (item != null) {
                 insert(item);
             }
-        }
-        if (size != oldSize) {
-            throw new IllegalStateException("Hash set size changed during resize.");
         }
     }
 }

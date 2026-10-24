@@ -17,12 +17,12 @@ public class Student {
 
     @Override
     public int hashCode() {
-        return (int) name.charAt(0) * 31 + age;
+        return name.charAt(0) * 31 + age;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof Student)) {
+        if (!(obj instanceof Student)) {
             return false;
         }
 

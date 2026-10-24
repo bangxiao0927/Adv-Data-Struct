@@ -23,37 +23,17 @@ public class Runner {
             choice = input.nextInt();
 
             if (choice == 1) {
-                System.out.println("\nStudents:");
-                for (Student student : students.toDLList()) {
-                    System.out.println("Name: " + student.getName()
-                            + ", Age: " + student.getAge());
-                }
+                showStudents(students);
             } else if (choice == 2) {
-                System.out.print("Enter the student's first name: ");
-                String name = input.next();
-                System.out.print("Enter the student's age: ");
-                int age = input.nextInt();
-
-                if (students.add(new Student(name, age))) {
+                if (students.add(readStudent(input))) {
                     System.out.println("Student added.");
                 } else {
                     System.out.println("A student with that first letter and age already exists.");
                 }
             } else if (choice == 3) {
-                System.out.print("Enter the student's first name: ");
-                String name = input.next();
-                System.out.print("Enter the student's age: ");
-                int age = input.nextInt();
-
-                Student student = new Student(name, age);
-                System.out.println("Student exists: " + students.contains(student));
+                System.out.println("Student exists: " + students.contains(readStudent(input)));
             } else if (choice == 4) {
-                System.out.print("Enter the student's first name: ");
-                String name = input.next();
-                System.out.print("Enter the student's age: ");
-                int age = input.nextInt();
-
-                if (students.remove(new Student(name, age))) {
+                if (students.remove(readStudent(input))) {
                     System.out.println("Student removed.");
                 } else {
                     System.out.println("Student not found.");
@@ -66,5 +46,22 @@ public class Runner {
         }
 
         input.close();
+    }
+
+    // Ask for a student's information in one place, not three places.
+    private static Student readStudent(Scanner input) {
+        System.out.print("Enter the student's first name: ");
+        String name = input.next();
+        System.out.print("Enter the student's age: ");
+        int age = input.nextInt();
+        return new Student(name, age);
+    }
+
+    private static void showStudents(MyHashSet<Student> students) {
+        System.out.println("\nStudents:");
+        for (Student student : students.toDLList()) {
+            System.out.println("Name: " + student.getName()
+                    + ", Age: " + student.getAge());
+        }
     }
 }
