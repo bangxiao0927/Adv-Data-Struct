@@ -1,36 +1,25 @@
-// Items are stored only in nodes, with links in both directions.
 public class DLList<E> {
     private Node<E> head;
     private Node<E> tail;
     private int size;
 
     public DLList() {
-        head = null;
-        tail = null;
+        head = new Node(null);
+        tail = new Node(null);
         size = 0;
+        head.setNext(tail);
+        head.setPrev(null);
+        tail.setPrev(head);
+        tail.setNext(null);
     }
 
-    public int size() {
-        return size;
-    }
-
-    public Node<E> getHead() {
-        return head;
-    }
-
-    public Node<E> getTail() {
-        return tail;
-    }
-
-    public boolean add(E data) {
-        Node<E> node = new Node<E>(data);
-        node.setPrev(tail);
-        if (tail == null) {
-            head = node;
-        } else {
-            tail.setNext(node);
-        }
-        tail = node;
+    public boolean add(E element) {
+        Node before = tail.prev();
+        Node newNode = new Node(element);
+        before.setNext(newNode);
+        newNode.setPrev(before);
+        newNode.setNext(tail);
+        tail.setPrev(newNode);
         size++;
         return true;
     }
@@ -40,47 +29,33 @@ public class DLList<E> {
     }
 
     public E remove(int index) {
-        Node<E> node = getNode(index);
-        Node<E> before = node.prev();
-        Node<E> after = node.next();
-        if (before == null) {
-            head = after;
-        } else {
-            before.setNext(after);
-        }
-        if (after == null) {
-            tail = before;
-        } else {
-            after.setPrev(before);
-        }
-        node.setNext(null);
-        node.setPrev(null);
+        Node<E> currentNode = getNode(index);
+        E result = currentNode.get();
+        Node<E> before = currentNode.prev();
+        Node<E> after = currentNode.next();
+        before.setNext(after);
+        after.setPrev(before);
         size--;
-        return node.get();
+        return result;
     }
 
-    private Node<E> getNode(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index);
-        }
-        // Start at whichever end is closer.
-        if (index < size / 2) {
-            Node<E> node = head;
-            for (int i = 0; i < index; i++) {
-                node = node.next();
+    public int size() {
+        return size;
+    }
+
+    public Node<E> getNode(int index) {
+        Node<E> currentNode;
+        if (index <= (size/2) ) {
+            currentNode = head.next();
+            for(int i = 0;i < index; i++) {
+                currentNode = currentNode.next();
             }
-            return node;
+        } else {
+            currentNode = tail.prev();
+            for(int i = size - 1; i > index; i--) {
+                currentNode = currentNode.prev();
+            }
         }
-        Node<E> node = tail;
-        for (int i = size - 1; i > index; i--) {
-            node = node.prev();
-        }
-        return node;
-    }
-
-    public void clear() {
-        head = null;
-        tail = null;
-        size = 0;
+        return currentNode;
     }
 }
