@@ -36,10 +36,13 @@ public class MyHashMap<K, V> {
      * Returns the value mapped to key, or null when that slot is empty.
      */
     public V get(Object key) {
-        int index = indexFor(key);
-        return (V) hashArray[index];
+        int index = indexFor(key);          // 1. 算出这个 key 在数组里的位置
+        Object previous = hashArray[index];    // 2. 取出那个位置上的东西
+        if (previous == null) {               // 3. 位置是空的
+            return null;                     //    -> 没找到，返回 null
+        }
+        return (V) previous;                   // 4. 有东西 -> 强转回 V 返回
     }
-
     /**
      * Removes key and returns its old value (null if absent).
      */
