@@ -14,26 +14,19 @@ public class MyHashSet<E> {
 
     /** Returns true if added; false if it was already present or null. */
     public boolean add(E value) {
-        if (value == null || contains(value)) {
+        int index = value.hashCode();
+        if (elements[index].equals(value)) {
             return false;
         }
-        if (size + 1 > elements.length * 0.70) {
-            resize();
-        }
-        insert(value);
+        elements[index] = value;
+        size++;
         return true;
     }
 
-    public boolean contains(Object value) {
-        if (value == null) {
-            return false;
-        }
-        int index = bucket(value);
-        while (elements[index] != null) {
-            if (elements[index].equals(value)) {
-                return true;
-            }
-            index = (index + 1) % elements.length;
+     public boolean contains(Object value) {
+        int index = value.hashCode();
+        if (elements[index].equals(value)) {
+            return true;
         }
         return false;
     }

@@ -16,7 +16,7 @@ public class MyHashMap<K, V> {
      * (null if there was none).
      */
     public V put(K key, V value) {
-        int index = indexFor(key);
+        int index = key.hashCode();
 
         // 1. Grab the old value first -- it is the return value
         V previous = (V) hashArray[index];
@@ -36,7 +36,7 @@ public class MyHashMap<K, V> {
      * Returns the value mapped to key, or null when that slot is empty.
      */
     public V get(Object key) {
-        int index = indexFor(key);            // 1. 算出这个 key 在数组里的位置
+        int index = key.hashCode();
         Object previous = hashArray[index];    // 2. 取出那个位置上的东西
         if (previous == null) {               // 3. 位置是空的
             return null;                     //    -> 没找到，返回 null
@@ -47,7 +47,7 @@ public class MyHashMap<K, V> {
      * Removes key and returns its old value (null if absent).
      */
     public V remove(Object key) {
-        int index = indexFor(key);            // 1. 算出这个 key 在数组里的位置
+        int index = key.hashCode();
         V previous = (V) hashArray[index];
         if (previous != null) {
             hashArray[index] = null;
@@ -72,13 +72,5 @@ public class MyHashMap<K, V> {
     /** Returns all keys. The assignment asks for MyHashSet<K>, so the field goes straight back. */
     public MyHashSet<K> keySet() {
         return keySet;
-    }
-
-    /**
-     * hashCode can be negative or larger than the array, so take it modulo the
-     * length with floorMod. Guarantees 0 <= index < hashArray.length.
-     */
-    private int indexFor(Object key) {
-        return Math.floorMod(key.hashCode(), hashArray.length);
     }
 }
