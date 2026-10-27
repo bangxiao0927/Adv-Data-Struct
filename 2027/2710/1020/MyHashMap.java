@@ -36,7 +36,7 @@ public class MyHashMap<K, V> {
      * Returns the value mapped to key, or null when that slot is empty.
      */
     public V get(Object key) {
-        int index = indexFor(key);          // 1. 算出这个 key 在数组里的位置
+        int index = indexFor(key);            // 1. 算出这个 key 在数组里的位置
         Object previous = hashArray[index];    // 2. 取出那个位置上的东西
         if (previous == null) {               // 3. 位置是空的
             return null;                     //    -> 没找到，返回 null
@@ -47,7 +47,7 @@ public class MyHashMap<K, V> {
      * Removes key and returns its old value (null if absent).
      */
     public V remove(Object key) {
-        int index = indexFor(key);
+        int index = indexFor(key);            // 1. 算出这个 key 在数组里的位置
         V previous = (V) hashArray[index];
         if (previous != null) {
             hashArray[index] = null;
@@ -75,10 +75,10 @@ public class MyHashMap<K, V> {
     }
 
     /**
-     * hashCode can be negative, so take the absolute value before the modulo.
-     * Guarantees 0 <= index < hashArray.length.
+     * hashCode can be negative or larger than the array, so take it modulo the
+     * length with floorMod. Guarantees 0 <= index < hashArray.length.
      */
     private int indexFor(Object key) {
-        return Math.abs(key.hashCode()) % hashArray.length;
+        return Math.floorMod(key.hashCode(), hashArray.length);
     }
 }

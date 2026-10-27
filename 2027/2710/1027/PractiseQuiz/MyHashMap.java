@@ -9,7 +9,7 @@ public class MyHashMap<K,V> {
     }
 
     public V put(K key, V value) {
-        int index = Math.abs(key.hashCode()) % hashArray.length;
+        int index = key.hashCode();
 
         V previous = (V) hashArray[index];
 
@@ -23,12 +23,12 @@ public class MyHashMap<K,V> {
     }
 
     public V get(Object key) {
-        int index = Math.abs(key.hashCode()) % hashArray.length;
+        int index = key.hashCode();
         
     }
 
     public V remove(Object key) {
-        int index = Math.abs(key.hashCode()) % hashArray.length;
+        int index = key.hashCode();
         V previous = (V) hashArray[index];
         if (previous != null) {
             hash
