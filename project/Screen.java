@@ -158,7 +158,7 @@ public class Screen extends JPanel implements ActionListener {
 
     private void removeItem(String type) {
         int count = 0;
-        for (Node<Scenery> node = items.getHead(); node != null; node = node.next()) {
+        for (Node<Scenery> node = items.getHead().next(); node != items.getTail(); node = node.next()) {
             if (matchesType(node.get(), type)) {
                 count++;
             }
@@ -170,7 +170,7 @@ public class Screen extends JPanel implements ActionListener {
         // Choose among only the matching items, with equal probability.
         int chosen = random.nextInt(count);
         int index = 0;
-        for (Node<Scenery> node = items.getHead(); node != null; node = node.next()) {
+        for (Node<Scenery> node = items.getHead().next(); node != items.getTail(); node = node.next()) {
             if (matchesType(node.get(), type)) {
                 if (chosen == 0) {
                     Scenery removed = items.remove(index);
@@ -188,7 +188,7 @@ public class Screen extends JPanel implements ActionListener {
     }
 
     private void randomizeItems() {
-        for (Node<Scenery> node = items.getHead(); node != null; node = node.next()) {
+        for (Node<Scenery> node = items.getHead().next(); node != items.getTail(); node = node.next()) {
             placeRandomly(node.get());
         }
         refresh("All item positions randomized.");
@@ -215,7 +215,7 @@ public class Screen extends JPanel implements ActionListener {
         drawMountains(g);
         drawGround(g);
 
-        for (Node<Scenery> node = items.getHead(); node != null; node = node.next()) {
+        for (Node<Scenery> node = items.getHead().next(); node != items.getTail(); node = node.next()) {
             node.get().drawMe(g);
         }
     }
@@ -275,9 +275,9 @@ public class Screen extends JPanel implements ActionListener {
     private class ItemClickListener extends MouseAdapter {
         public void mouseClicked(MouseEvent event) {
             // Last drawn = topmost, so search backward through the list.
-            Node<Scenery> node = items.getTail();
+            Node<Scenery> node = items.getTail().prev();
             int index = items.size() - 1;
-            while (node != null) {
+            while (node != items.getHead()) {
                 if (node.get().contains(event.getX(), event.getY())) {
                     items.remove(index);
                     refresh("Clicked item removed.");

@@ -146,7 +146,7 @@ public class Runner {
             String line = input.nextLine();
 
             try {
-                return Integer.parseInt(line);
+                return Integer.parseInt(line.trim());
             } catch (NumberFormatException e) {
                 System.out.print("Please enter a whole number: ");
             }
