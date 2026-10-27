@@ -32,18 +32,12 @@ public class MyHashSet<E> {
     }
 
     public boolean remove(Object value) {
-        for (int i = 0; i < size; i++) {
-            if (elements[i].equals(value)) {
-                // shift everything after it one slot left to keep the array packed
-                for (int j = i; j < size - 1; j++) {
-                    elements[j] = elements[j + 1];
-                }
-                elements[size - 1] = null;
-                size--;
-                return true;
-            }
+        if (!contains(value)) {
+            return false;
         }
-        return false;
+        objs[value.hashCode()] = null;
+        size--;
+        return true;
     }
 
     public int size() {
