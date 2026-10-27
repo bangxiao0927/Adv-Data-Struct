@@ -35,7 +35,7 @@ public class MyHashSet<E> {
         if (!contains(value)) {
             return false;
         }
-        objs[value.hashCode()] = null;
+        elements[value.hashCode()] = null;
         size--;
         return true;
     }
