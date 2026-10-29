@@ -8,6 +8,7 @@ public class MyHashMap<K,V> {
         keySet = new MyHashSet<>(10000);
     }
 
+    @SuppressWarnings("unchecked")
     public V put(K key, V value) {
         int index = key.hashCode();
 
@@ -22,18 +23,35 @@ public class MyHashMap<K,V> {
         return previous;
     }
 
+    @SuppressWarnings("unchecked")
     public V get(Object key) {
         int index = key.hashCode();
         
+        if(hashArray[index] != null) {
+            return (V) hashArray[index];
+        }
+
+        return null;
     }
 
+    @SuppressWarnings("unchecked")
     public V remove(Object key) {
         int index = key.hashCode();
         V previous = (V) hashArray[index];
         if (previous != null) {
-            hash
+            hashArray[index] = null;
+            keySet.remove(key);
+            size--;
         }
+
+        return previous;
     }
 
+    public int size() {
+        return size;
+    }
 
+    public MyHashSet<K> keySet() {
+        return keySet;
+    }
 }

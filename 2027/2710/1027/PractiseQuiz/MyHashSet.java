@@ -53,4 +53,15 @@ public class MyHashSet<E> {
     public boolean isEmpty() {
         return size == 0;
     }
+
+    // Copy the set's values into a doubly linked list (used by Runner).
+    public DLList<E> toDLList() {
+        DLList<E> list = new DLList<E>();
+        for (int i = 0; i < size; i++) {
+            @SuppressWarnings("unchecked")
+            E element = (E) elements[i];
+            list.add(element);
+        }
+        return list;
+    }
 }
