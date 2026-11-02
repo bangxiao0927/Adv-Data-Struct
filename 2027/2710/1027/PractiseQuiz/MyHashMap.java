@@ -5,7 +5,7 @@ public class MyHashMap<K,V> {
 
     public MyHashMap() {
         hashArray = new Object[10000];
-        keySet = new MyHashSet<>(10000);
+        keySet = new MyHashSet<>();
     }
 
     @SuppressWarnings("unchecked")
@@ -26,7 +26,7 @@ public class MyHashMap<K,V> {
     @SuppressWarnings("unchecked")
     public V get(Object key) {
         int index = key.hashCode();
-        
+
         if(hashArray[index] != null) {
             return (V) hashArray[index];
         }
