@@ -1,21 +1,19 @@
-/** A map key identified by a two-letter lowercase country abbreviation. */
+// Note: A map key is identified by a two-letter lowercase country abbreviation
 public class Country {
     private final String name;
     private final String abbreviation;
 
     public Country(String name, String abbreviation) {
         if (name == null || name.trim().length() == 0) {
-            throw new IllegalArgumentException("A country name is required.");
+            throw new IllegalArgumentException("A country name is required");
         }
         if (abbreviation == null) {
-            throw new IllegalArgumentException("A country abbreviation is required.");
+            throw new IllegalArgumentException("A country abbreviation is required");
         }
 
         String normalized = abbreviation.trim().toLowerCase();
-        if (normalized.length() != 2
-                || normalized.charAt(0) < 'a' || normalized.charAt(0) > 'z'
-                || normalized.charAt(1) < 'a' || normalized.charAt(1) > 'z') {
-            throw new IllegalArgumentException("Enter a two-letter country abbreviation.");
+        if (normalized.length() != 2 || normalized.charAt(0) < 'a' || normalized.charAt(0) > 'z' || normalized.charAt(1) < 'a' || normalized.charAt(1) > 'z') {
+            throw new IllegalArgumentException("Enter a two-letter country abbreviation");
         }
         this.name = name.trim();
         this.abbreviation = normalized;
@@ -29,15 +27,15 @@ public class Country {
         return abbreviation;
     }
 
-    /** Converts the two letters to a base-26 number, so aa is 0 and zz is 675. */
+    // Converts the two letters to base-26 number (eg. aa is 0 and zz is 675)
     @Override
     public int hashCode() {
         int firstLetter = abbreviation.charAt(0) - 'a';
         int secondLetter = abbreviation.charAt(1) - 'a';
-        return firstLetter * 26 + secondLetter;
+        return (firstLetter * 26) + secondLetter;
     }
 
-    /** Two countries are the same country when their abbreviations match. */
+    // Two countries are equal when their abbreviations match
     @Override
     public boolean equals(Object object) {
         if (this == object) {
@@ -52,7 +50,7 @@ public class Country {
     }
 
     @Override
-    public String toString() {
+    public String toString() {   
         return name + " (" + abbreviation + ")";
     }
 }
