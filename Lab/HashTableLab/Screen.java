@@ -5,10 +5,14 @@ import javax.swing.*;
 class Screen extends JPanel implements ActionListener {
     private JTextArea info;
     private JTextField state, abbreviation, population, capital, image;
-    private JButton add, remove;
+    private JButton get, add, remove, addImage;
+    
+    private MyHashMap<State, StateInfo> states;
     
     public Screen() {
         this.setLayout(null);
+
+        states = new MyHashMap<>();
 
         info = new JTextArea();
         info.setBounds(500, 50, 330, 150);
@@ -32,14 +36,31 @@ class Screen extends JPanel implements ActionListener {
         image.setBounds(50, 250, 150, 30);
         this.add(image);
 
+        get = new JButton("Get Info");
+        get.setBounds(50, 300, 150, 30);
+        get.addActionListener(this);
+        this.add(get);
         add = new JButton("Add");
-        add.setBounds(50, 300, 150, 30);
+        add.setBounds(50, 350, 150, 30);
         add.addActionListener(this);
         this.add(add);
         remove = new JButton("Remove");
         remove.setBounds(50, 400, 150, 30);
         remove.addActionListener(this);
         this.add(remove);
+        addImage = new JButton("Add Image");
+        addImage.setBounds(50, 450, 150, 30);
+        addImage.addActionListener(this);
+        this.add(addImage);
+
+        State ca = new State("California", "ca");
+        State ny = new State("New York", "ny");
+        State tx = new State("Texas", "tx");
+        states.put(ca, new StateInfo(ca, "39,400,000", "Sacramento");
+        states.put(ny, new StateInfo(ny, "20,000,000", "Albany");
+        states.put(tx, new StateInfo(tx, "31,700,000", "Austin");
+
+        /* VIEW ALL STATES */
     }
     
     @Override
@@ -54,6 +75,17 @@ class Screen extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //
+        if (e.getSource() == add) {
+            State s = new State(state.getText(), abbreviation.getText());
+            states.put(s, new StateInfo(s, population.getText(), capital.getText()));
+        } else if (e.getSource() == remove) {
+            states.remove(new State("PLACEHOLDER", abbreviation.getText()));
+        } else if (e.getSource() == get) {
+            StateInfo si = new State("PLACEHOLDER", abbreviation.getText());
+            displayInfo.setText(si.toString());
+            repaint();
+        } else if (e.getSource() == addImage) {
+            /* ADD IMAGE CODE */
+        }
     }
 }
