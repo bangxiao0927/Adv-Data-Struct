@@ -21,7 +21,7 @@ public class State {
         return abbreviation;
     }
 
-    public int hashcode() {
+    public int hashCode() {
         char[] chars = abbreviation.toCharArray();
         int hashcode = 0;
         for (int i = 0; i < chars.length; i++) {
