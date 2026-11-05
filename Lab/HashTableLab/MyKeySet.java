@@ -1,3 +1,4 @@
+// Keeps the keys separate from the values so we can list them on their own.
 public class MyKeySet<E> {
     private Object[] objs;
     private int size;
@@ -9,13 +10,14 @@ public class MyKeySet<E> {
 
     public boolean add(E obj) {
         int hash = obj.hashCode();
-        if (objs[hash] != null) {
-            return false;
-        } else {
+        if (objs[hash] == null) {
             objs[hash] = obj;
             size++;
             return true;
         }
+        // Same state again: keep the newest key (its name may have changed).
+        objs[hash] = obj;
+        return false;
     }
 
     public void clear() {
@@ -25,11 +27,10 @@ public class MyKeySet<E> {
 
     public boolean contains(Object o) {
         int hash = o.hashCode();
-        if (objs[hash].equals(o)) {
-            return true;
-        } else {
+        if (objs[hash] == null) {
             return false;
         }
+        return objs[hash].equals(o);
     }
 
     public boolean remove(Object o) {
@@ -43,5 +44,15 @@ public class MyKeySet<E> {
 
     public int size() {
         return size;
+    }
+
+    public String toString() {
+        String all = "";
+        for (int i = 0; i < objs.length; i++) {
+            if (objs[i] != null) {
+                all += objs[i].toString() + "\n";
+            }
+        }
+        return all;
     }
 }

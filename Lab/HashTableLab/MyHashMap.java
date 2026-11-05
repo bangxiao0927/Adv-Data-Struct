@@ -13,10 +13,14 @@ public class MyHashMap<K, V> {
 
     public void put(K key, V value) {
         int index = key.hashCode();
-        if (table[index] == null) {
-            table[index] = new DLList<V>();
+        if (keySet.contains(key)) {
+            table[index].set(0, value);
+        } else {
+            if (table[index] == null) {
+                table[index] = new DLList<V>();
+            }
+            table[index].add(value);
         }
-        table[index].add(value);
 
         if (keySet.add(key)) {
             size++;
@@ -47,12 +51,15 @@ public class MyHashMap<K, V> {
 
         if (values.size() == 0) {
             table[index] = null;
+            if (keySet.remove(key)) {
+                size--;
+            }
         }
     }
 
     public void remove(K key) {
-        table[key.hashCode()] = null;
         if (keySet.remove(key)) {
+            table[key.hashCode()] = null;
             size--;
         }
     }

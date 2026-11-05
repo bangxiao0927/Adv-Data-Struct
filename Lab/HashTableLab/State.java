@@ -1,33 +1,46 @@
+// The key of the map: two letters are the whole identity of a state.
 public class State {
     private String abbreviation, name;
 
     public State (String name, String abbreviation) {
         this.name = name;
-        this.abbreviation = abbreviation;
-        if (abbreviation.length() > 2) {
+        this.abbreviation = abbreviation.trim().toLowerCase();
+        if (this.abbreviation.length() > 2) {
             throw new IllegalArgumentException("Invalid abbreviation.length() in State(String, String)");
         }
     }
 
     public boolean equals(Object o) {
-        State s = (State)(o);
-        if (s.getAbbreviation() == abbreviation) {
-            return true;
+        if (!(o instanceof State)) {
+            return false;
         }
-        return false;
+        State s = (State) o;
+        return s.getAbbreviation().equals(abbreviation);
     }
 
     public String getAbbreviation() {
         return abbreviation;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    // 26 * 26 = 676 buckets, one for every pair of letters.
     public int hashCode() {
         char[] chars = abbreviation.toCharArray();
-        int hashcode = 0;
-        for (int i = 0; i < chars.length; i++) {
-            hashcode += Math.pow((int)(chars[i]) - 97, i); 
+        if (chars.length == 0) {
+            return 0;
         }
-        return hashcode;
+        int first = chars[0] - 'a';
+        int second = 0;
+        if (chars.length > 1) {
+            second = chars[1] - 'a';
+        }
+        if (first < 0 || first > 25 || second < 0 || second > 25) {
+            return 0;
+        }
+        return first * 26 + second;
     }
 
     public String toString() {

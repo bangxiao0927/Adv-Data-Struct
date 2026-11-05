@@ -1,18 +1,22 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.net.*;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
+// The window for the state hash map lab.
 public class Screen extends JPanel implements ActionListener {
     private JTextArea info;
     private JTextField state, abbreviation, population, capital, image;
-    private JButton get, add, remove, addImage;
+    private JButton get, add, remove, addImage, viewAll;
     
     private MyHashMap<State, StateInfo> states;
+    private StateInfo current;
     
     public Screen() {
         this.setLayout(null);
 
-        states = new MyHashMap<>();
+        states = new MyHashMap<State, StateInfo>();
 
         info = new JTextArea();
         info.setBounds(500, 50, 330, 150);
@@ -52,6 +56,10 @@ public class Screen extends JPanel implements ActionListener {
         addImage.setBounds(50, 450, 150, 30);
         addImage.addActionListener(this);
         this.add(addImage);
+        viewAll = new JButton("View All States");
+        viewAll.setBounds(250, 50, 150, 30);
+        viewAll.addActionListener(this);
+        this.add(viewAll);
 
         State ca = new State("California", "ca");
         State ny = new State("New York", "ny");
@@ -60,32 +68,130 @@ public class Screen extends JPanel implements ActionListener {
         states.put(ny, new StateInfo(ny, "20,000,000", "Albany"));
         states.put(tx, new StateInfo(tx, "31,700,000", "Austin"));
 
-        /* VIEW ALL STATES */
+        addImageToState("ca", "https://www.planetware.com/img/gallery/most-iconic-landmarks-to-visit-in-california/intro-1780001427.webp");
+        addImageToState("ny", "https://arlohotels.com/wp-content/uploads/2025/08/statue-liberty-new-york-city-skyline-usa_268835-777.jpg");
+
+        showAll();
     }
     
     @Override
-  	public Dimension getPreferredSize() {
-  		return new Dimension(880, 500);
-  	}
+    public Dimension getPreferredSize() {
+        return new Dimension(880, 500);
+    }
     
     @Override
-  	public void paintComponent(Graphics g) {
-  		//
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (current == null) {
+            return;
+        }
+        // Two pictures per row, under the text box.
+        DLList<Image> pics = current.images();
+        for (int i = 0; i < pics.size(); i++) {
+            g.drawImage(pics.get(i), 500 + 160 * (i % 2), 220 + 130 * (i / 2), 150, 120, null);
+        }
+    }
+
+    private void showAll() {
+        current = null;
+        if (states.isEmpty()) {
+            info.setText("No states yet.");
+        } else {
+            info.setText(states.keySet().toString());
+        }
+        repaint();
+    }
+
+    private void showState(String abbr) {
+        DLList<StateInfo> found = states.get(new State("PLACEHOLDER", abbr));
+        if (found == null || found.size() == 0) {
+            current = null;
+            info.setText("State not found.");
+        } else {
+            current = found.get(0);
+            info.setText(current.toString());
+        }
+        repaint();
+    }
+
+    private State keyFromField() {
+        String abbr = abbreviation.getText().trim();
+        if (abbr.length() != 2) {
+            JOptionPane.showMessageDialog(this, "Abbreviation must be 2 letters.");
+            return null;
+        }
+        return new State("PLACEHOLDER", abbr);
+    }
+
+    // ImageIO cannot read webp, so try the same picture as a jpg.
+    private Image loadImage(String url) {
+        try {
+            URLConnection conn = new URL(url).openConnection();
+            conn.setConnectTimeout(3000);
+            conn.setReadTimeout(3000);
+            Image pic = ImageIO.read(conn.getInputStream());
+            if (pic == null && url.endsWith(".webp")) {
+                conn = new URL(url.substring(0, url.length() - 4) + "jpg").openConnection();
+                conn.setConnectTimeout(3000);
+                conn.setReadTimeout(3000);
+                pic = ImageIO.read(conn.getInputStream());
+            }
+            return pic;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public boolean addImageToState(String abbr, String url) {
+        if (abbr.trim().length() != 2) {
+            return false;
+        }
+        DLList<StateInfo> found = states.get(new State("PLACEHOLDER", abbr));
+        if (found == null || found.size() == 0) {
+            return false;
+        }
+        Image pic = loadImage(url);
+        if (pic == null) {
+            return false;
+        }
+        found.get(0).addImage(pic);
+        return true;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == add) {
-            State s = new State(state.getText(), abbreviation.getText());
+        if (e.getSource() == viewAll) {
+            showAll();
+        } else if (e.getSource() == add) {
+            String abbr = abbreviation.getText().trim();
+            if (abbr.length() != 2) {
+                JOptionPane.showMessageDialog(this, "Abbreviation must be 2 letters.");
+                return;
+            }
+            State s = new State(state.getText(), abbr);
             states.put(s, new StateInfo(s, population.getText(), capital.getText()));
+            showAll();
         } else if (e.getSource() == remove) {
-            states.remove(new State("PLACEHOLDER", abbreviation.getText()));
+            State key = keyFromField();
+            if (key != null) {
+                states.remove(key);
+                showAll();
+            }
         } else if (e.getSource() == get) {
-            StateInfo si = states.get(new State("PLACEHOLDER", abbreviation.getText())).get(0);
-            info.setText(si.toString());
-            repaint();
+            State key = keyFromField();
+            if (key != null) {
+                showState(key.getAbbreviation());
+            }
         } else if (e.getSource() == addImage) {
-            /* ADD IMAGE CODE */
+            State key = keyFromField();
+            if (key == null) {
+                return;
+            }
+            if (addImageToState(key.getAbbreviation(), image.getText().trim())) {
+                showState(key.getAbbreviation());
+            } else {
+                JOptionPane.showMessageDialog(this, "Could not add that picture.");
+            }
         }
     }
 }

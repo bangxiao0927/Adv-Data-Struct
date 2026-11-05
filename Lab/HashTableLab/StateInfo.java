@@ -1,8 +1,6 @@
 import java.awt.Image;
-import javax.imageio.ImageIO;
-import java.io.IOException;
 
-
+// The value of the map: the facts about a state plus all of its pictures.
 public class StateInfo {
     private String name, abbreviation, population, capital;
     private DLList<Image> images;
@@ -10,12 +8,9 @@ public class StateInfo {
     public StateInfo(State s, String population, String capital) {
         this.population = population;
         this.capital = capital;
-        
-        String[] words = s.toString().split(" ");
-        name = words[0];
-        abbreviation = words[1];
-
-        /* MAKE IMAGE CODE */
+        name = s.getName();
+        abbreviation = s.getAbbreviation();
+        images = new DLList<Image>();
     }
 
     public void addImage(Image i) {
