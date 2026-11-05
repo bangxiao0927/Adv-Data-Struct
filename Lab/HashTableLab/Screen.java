@@ -69,7 +69,23 @@ public class Screen extends JPanel implements ActionListener {
         states.put(tx, new StateInfo(tx, "31,700,000", "Austin"));
 
         addImageToState("ca", "https://www.planetware.com/img/gallery/most-iconic-landmarks-to-visit-in-california/intro-1780001427.webp");
+        // Cary Bass, Golden Gate Bridge, CC BY-SA 3.0 (resized).
+        // https://commons.wikimedia.org/wiki/File:Golden_Gate_Bridge_Yang_Ming_Line.jpg
+        // https://creativecommons.org/licenses/by-sa/3.0/
+        addImageToState("ca", "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/Golden_Gate_Bridge_Yang_Ming_Line.jpg/960px-Golden_Gate_Bridge_Yang_Ming_Line.jpg");
         addImageToState("ny", "https://arlohotels.com/wp-content/uploads/2025/08/statue-liberty-new-york-city-skyline-usa_268835-777.jpg");
+        // Dllu, Empire State Building, CC BY-SA 4.0 (resized).
+        // https://commons.wikimedia.org/wiki/File:View_of_Empire_State_Building_from_Rockefeller_Center_New_York_City_dllu.jpg
+        // https://creativecommons.org/licenses/by-sa/4.0/
+        addImageToState("ny", "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/View_of_Empire_State_Building_from_Rockefeller_Center_New_York_City_dllu.jpg/960px-View_of_Empire_State_Building_from_Rockefeller_Center_New_York_City_dllu.jpg");
+        // Comrade Goose, Austin Texas Skyline, CC BY 4.0 (resized).
+        // https://commons.wikimedia.org/wiki/File:Austin_Texas_Skyline.jpg
+        // https://creativecommons.org/licenses/by/4.0/
+        addImageToState("tx", "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Austin_Texas_Skyline.jpg/960px-Austin_Texas_Skyline.jpg");
+        // Philipperez1, Alamo Mission, CC BY-SA 4.0 (resized).
+        // https://commons.wikimedia.org/wiki/File:Alamo_Mission_in_San_Antonio_DSC03806.jpg
+        // https://creativecommons.org/licenses/by-sa/4.0/
+        addImageToState("tx", "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Alamo_Mission_in_San_Antonio_DSC03806.jpg/960px-Alamo_Mission_in_San_Antonio_DSC03806.jpg");
 
         showAll();
     }
@@ -129,11 +145,13 @@ public class Screen extends JPanel implements ActionListener {
             URLConnection conn = new URL(url).openConnection();
             conn.setConnectTimeout(3000);
             conn.setReadTimeout(3000);
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
             Image pic = ImageIO.read(conn.getInputStream());
             if (pic == null && url.endsWith(".webp")) {
                 conn = new URL(url.substring(0, url.length() - 4) + "jpg").openConnection();
                 conn.setConnectTimeout(3000);
                 conn.setReadTimeout(3000);
+                conn.setRequestProperty("User-Agent", "Mozilla/5.0");
                 pic = ImageIO.read(conn.getInputStream());
             }
             return pic;
