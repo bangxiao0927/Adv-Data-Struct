@@ -11,7 +11,7 @@ public class StateInfo {
         this.population = population;
         this.capital = capital;
         
-        String[] words = s.toString().toCharArray();
+        String[] words = s.toString().split(" ");
         name = words[0];
         abbreviation = words[1];
 

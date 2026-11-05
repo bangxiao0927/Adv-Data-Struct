@@ -1,8 +1,8 @@
-class MyKeySet<E> {
+public class MyKeySet<E> {
     private Object[] objs;
     private int size;
     
-    public MyHashSet() {
+    public MyKeySet() {
         objs = new Object[676];
         size = 0;
     }

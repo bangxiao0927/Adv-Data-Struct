@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-class Screen extends JPanel implements ActionListener {
+public class Screen extends JPanel implements ActionListener {
     private JTextArea info;
     private JTextField state, abbreviation, population, capital, image;
     private JButton get, add, remove, addImage;
@@ -56,9 +56,9 @@ class Screen extends JPanel implements ActionListener {
         State ca = new State("California", "ca");
         State ny = new State("New York", "ny");
         State tx = new State("Texas", "tx");
-        states.put(ca, new StateInfo(ca, "39,400,000", "Sacramento");
-        states.put(ny, new StateInfo(ny, "20,000,000", "Albany");
-        states.put(tx, new StateInfo(tx, "31,700,000", "Austin");
+        states.put(ca, new StateInfo(ca, "39,400,000", "Sacramento"));
+        states.put(ny, new StateInfo(ny, "20,000,000", "Albany"));
+        states.put(tx, new StateInfo(tx, "31,700,000", "Austin"));
 
         /* VIEW ALL STATES */
     }
@@ -81,8 +81,8 @@ class Screen extends JPanel implements ActionListener {
         } else if (e.getSource() == remove) {
             states.remove(new State("PLACEHOLDER", abbreviation.getText()));
         } else if (e.getSource() == get) {
-            StateInfo si = states.get(new State("PLACEHOLDER", abbreviation.getText()));
-            displayInfo.setText(si.toString());
+            StateInfo si = states.get(new State("PLACEHOLDER", abbreviation.getText())).get(0);
+            info.setText(si.toString());
             repaint();
         } else if (e.getSource() == addImage) {
             /* ADD IMAGE CODE */

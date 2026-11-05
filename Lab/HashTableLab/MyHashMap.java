@@ -5,9 +5,9 @@ public class MyHashMap<K, V> {
     private int size;
 
     @SuppressWarnings("unchecked")
-    public MyHashTable() {
-        table = (DLList<V>[]) new DLList<?>[10000];
-        keySet = new MyHashSet<K>(table.length);
+    public MyHashMap() {
+        table = (DLList<V>[]) new DLList<?>[676];
+        keySet = new MyKeySet<K>();
         size = 0;
     }
 
