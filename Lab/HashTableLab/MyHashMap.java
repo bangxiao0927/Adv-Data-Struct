@@ -1,7 +1,7 @@
 public class MyHashMap<K, V> {
 
     private DLList<V>[] table;
-    private MyHashSet<K> keySet;
+    private MyKeySet<K> keySet;
     private int size;
 
     @SuppressWarnings("unchecked")
@@ -27,7 +27,7 @@ public class MyHashMap<K, V> {
         return table[key.hashCode()];
     }
 
-    public MyHashSet<K> keySet() {
+    public MyKeySet<K> keySet() {
         return keySet;
     }
     
