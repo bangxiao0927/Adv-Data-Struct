@@ -81,7 +81,7 @@ class Screen extends JPanel implements ActionListener {
         } else if (e.getSource() == remove) {
             states.remove(new State("PLACEHOLDER", abbreviation.getText()));
         } else if (e.getSource() == get) {
-            StateInfo si = new State("PLACEHOLDER", abbreviation.getText());
+            StateInfo si = states.get(new State("PLACEHOLDER", abbreviation.getText()));
             displayInfo.setText(si.toString());
             repaint();
         } else if (e.getSource() == addImage) {
