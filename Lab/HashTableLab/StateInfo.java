@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class StateInfo {
     private String name, abbreviation, population, capital;
-    private Image image1, image2;
+    private DLList<Image> images;
 
     public StateInfo(State s, String population, String capital) {
         this.population = population;
@@ -18,12 +18,12 @@ public class StateInfo {
         /* MAKE IMAGE CODE */
     }
 
-    public Image image1() {
-        return image1;
+    public void addImage(Image i) {
+        images.add(i);
     }
 
-    public Image image2() {
-        return image2;
+    public DLList<Image> images() {
+        return images;
     }
 
     public String toString() {
