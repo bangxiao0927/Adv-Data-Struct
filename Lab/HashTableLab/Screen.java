@@ -145,13 +145,13 @@ public class Screen extends JPanel implements ActionListener {
     // ImageIO cannot read webp, so try the same picture as a jpg.
     private Image loadImage(String url) {
         try {
-            URLConnection conn = new URL(url).openConnection();
+            URLConnection conn = URI        .create(url).toURL().openConnection();
             conn.setConnectTimeout(3000);
             conn.setReadTimeout(3000);
             conn.setRequestProperty("User-Agent", "Mozilla/5.0");
             Image pic = ImageIO.read(conn.getInputStream());
             if (pic == null && url.endsWith(".webp")) {
-                conn = new URL(url.substring(0, url.length() - 4) + "jpg").openConnection();
+                conn = URI.create(url.substring(0, url.length() - 4) + "jpg").toURL().openConnection();
                 conn.setConnectTimeout(3000);
                 conn.setReadTimeout(3000);
                 conn.setRequestProperty("User-Agent", "Mozilla/5.0");
