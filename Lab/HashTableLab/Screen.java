@@ -102,9 +102,12 @@ public class Screen extends JPanel implements ActionListener {
             return;
         }
         // Two pictures per row, under the text box.
-        DLList<Image> pics = current.images();
-        for (int i = 0; i < pics.size(); i++) {
-            g.drawImage(pics.get(i), 500 + 160 * (i % 2), 220 + 130 * (i / 2), 150, 120, null);
+        DLList<String> urls = current.images();
+        for (int i = 0; i < urls.size(); i++) {
+            Image pic = loadImage(urls.get(i));
+            if (pic != null) {
+                g.drawImage(pic, 500 + 160 * (i % 2), 220 + 130 * (i / 2), 150, 120, null);
+            }
         }
     }
 
@@ -119,12 +122,12 @@ public class Screen extends JPanel implements ActionListener {
     }
 
     private void showState(String abbr) {
-        DLList<StateInfo> found = states.get(new State("PLACEHOLDER", abbr));
-        if (found == null || found.size() == 0) {
+        StateInfo found = states.get(new State("PLACEHOLDER", abbr));
+        if (found == null) {
             current = null;
             info.setText("State not found.");
         } else {
-            current = found.get(0);
+            current = found;
             info.setText(current.toString());
         }
         repaint();
@@ -164,15 +167,15 @@ public class Screen extends JPanel implements ActionListener {
         if (abbr.trim().length() != 2) {
             return false;
         }
-        DLList<StateInfo> found = states.get(new State("PLACEHOLDER", abbr));
-        if (found == null || found.size() == 0) {
+        StateInfo found = states.get(new State("PLACEHOLDER", abbr));
+        if (found == null) {
             return false;
         }
-        Image pic = loadImage(url);
-        if (pic == null) {
+        // The lab stores the picture URL here, and then loads it for display.
+        if (loadImage(url) == null) {
             return false;
         }
-        found.get(0).addImage(pic);
+        found.addImage(url);
         return true;
     }
 
