@@ -1,13 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-/**
- * Circle Class (Part 1 of the assignment)
- * - instance variable x, set up by the constructor
- * - drawMe(Graphics g) draws the circle based on x
- * - implements Runnable; run() increases x in a while loop
- *   with a 100 millisecond wait between each increment
- */
 public class Circle implements Runnable {
     private int x;
     private final int y;
