@@ -6,16 +6,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 
-/**
- * Screen Class (Part 2 of the assignment)
- * - instantiates the Circle class as cr
- * - constructor creates a Thread passing in cr and starts it
- * - paintComponent calls drawMe from cr
- * - creates an Animate thread that repeatedly repaints the screen
- * - also runs the Bubble Popping Game (Part 3):
- *   at least 20 bubbles, each moving on its own thread,
- *   click to pop, countdown timer, win/lose text at the end
- */
 public class Screen extends JPanel implements MouseListener {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
