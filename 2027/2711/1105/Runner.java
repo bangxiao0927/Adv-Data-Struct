@@ -1,8 +1,5 @@
 import javax.swing.JFrame;
 
-/**
- * Launcher for the Circle / Bubble Pop game (assignment 1105).
- */
 public class Runner {
     public static void main(String args[]) {
         JFrame frame = new JFrame("Bubble Pop Game");
