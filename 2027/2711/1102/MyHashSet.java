@@ -8,6 +8,8 @@ public class MyHashSet<E> {
         size = 0;
     }
 
+    // A set keeps the first object it stores. If the same key comes in again,
+    // the old object stays and false is returned.
     public boolean add(E obj) {
         int hash = obj.hashCode();
         if (objs[hash] == null) {
@@ -15,7 +17,6 @@ public class MyHashSet<E> {
             size++;
             return true;
         }
-        objs[hash] = obj;
         return false;
     }
 
