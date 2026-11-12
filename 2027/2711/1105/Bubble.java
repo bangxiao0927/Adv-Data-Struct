@@ -11,8 +11,8 @@ public class Bubble implements Runnable {
     private final Color color;
     private final int width;
     private final int height;
-    private volatile boolean running = true;
-    private volatile boolean popped = false;
+    private boolean running = true;
+    private boolean popped = false;
 
     public Bubble(int width, int height) {
         this.width = width;
@@ -33,7 +33,7 @@ public class Bubble implements Runnable {
     }
 
     // draw the bubble (nothing is drawn once it is popped)
-    public void drawMe(Graphics g) {
+    public synchronized void drawMe(Graphics g) {
         if (popped) {
             return;
         }
@@ -46,15 +46,27 @@ public class Bubble implements Runnable {
     // move the bubble and bounce off the walls
     public void run() {
         try {
-            while (running && !popped) {
-                x += dx;
-                y += dy;
-                if (x - radius < 0 || x + radius > width) {
-                    dx = -dx;
+            while (isRunning()) {
+                int newX = getX() + dx;
+                int newY = getY() + dy;
+                // bounce off the walls. Put the bubble back inside, so it never goes past the edge.
+                if (newX - radius < 0) {
+                    newX = radius;
+                    dx = Math.abs(dx);
                 }
-                if (y - radius < 0 || y + radius > height) {
-                    dy = -dy;
+                if (newX + radius > width) {
+                    newX = width - radius;
+                    dx = -Math.abs(dx);
                 }
+                if (newY - radius < 0) {
+                    newY = radius;
+                    dy = Math.abs(dy);
+                }
+                if (newY + radius > height) {
+                    newY = height - radius;
+                    dy = -Math.abs(dy);
+                }
+                moveTo(newX, newY);
                 Thread.sleep(40);
             }
         } catch (InterruptedException ex) {
@@ -62,23 +74,34 @@ public class Bubble implements Runnable {
         }
     }
 
-    public void stop() {
+    // move the bubble to a new position
+    public synchronized void moveTo(int newX, int newY) {
+        x = newX;
+        y = newY;
+    }
+
+    // the bubble keeps moving until it is stopped or popped
+    public synchronized boolean isRunning() {
+        return running && !popped;
+    }
+
+    public synchronized void stop() {
         running = false;
     }
 
-    public void pop() {
+    public synchronized void pop() {
         popped = true;
     }
 
-    public boolean isPopped() {
+    public synchronized boolean isPopped() {
         return popped;
     }
 
-    public int getX() {
+    public synchronized int getX() {
         return x;
     }
 
-    public int getY() {
+    public synchronized int getY() {
         return y;
     }
 
@@ -86,9 +109,13 @@ public class Bubble implements Runnable {
         return radius;
     }
 
-    public boolean contains(int mx, int my) {
+    // a click counts if it is inside the bubble, or up to 5 pixels outside its edge.
+    // the bubble on screen can be a few pixels away from its real position,
+    // so this allows clicks on the edge to work.
+    public synchronized boolean contains(int mx, int my) {
+        int reach = radius + 5;
         int dx2 = mx - x;
         int dy2 = my - y;
-        return dx2 * dx2 + dy2 * dy2 <= radius * radius;
+        return dx2 * dx2 + dy2 * dy2 <= reach * reach;
     }
 }

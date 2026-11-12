@@ -5,7 +5,7 @@ public class Circle implements Runnable {
     private int x;
     private final int y;
     private final int radius;
-    private volatile boolean running = true;
+    private boolean running = true;
 
     public Circle(int x) {
         this.x = x;
@@ -23,7 +23,7 @@ public class Circle implements Runnable {
 
     public void run() {
         try {
-            while (running) {
+            while (isRunning()) {
                 x += 5;
                 // wrap around when it leaves the screen
                 if (x - radius > 800) {
@@ -48,8 +48,12 @@ public class Circle implements Runnable {
         return radius;
     }
 
-    public void stop() {
+    public synchronized void stop() {
         running = false;
+    }
+
+    public synchronized boolean isRunning() {
+        return running;
     }
 
     public boolean contains(int mx, int my) {

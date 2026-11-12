@@ -14,9 +14,9 @@ public class Screen extends JPanel implements MouseListener {
     private Circle cr;
     private BubbleList bubbles;
 
-    private volatile boolean gameOver = false;
-    private volatile String result = ""; // "WIN" or "LOSE"
-    private volatile int seconds = TIMER_SECONDS;
+    private boolean gameOver = false;
+    private String result = ""; // "WIN" or "LOSE"
+    private int seconds = TIMER_SECONDS;
 
     public Screen() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -68,14 +68,14 @@ public class Screen extends JPanel implements MouseListener {
         // draw the HUD
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.BOLD, 24));
-        g.drawString("Time: " + seconds, 25, 40);
+        g.drawString("Time: " + getSeconds(), 25, 40);
         g.drawString("Bubbles left: " + bubbles.size(), 25, 72);
         g.drawString("Click a bubble to pop it!", 25, 104);
 
         // draw the win / lose text at the end
-        if (gameOver) {
+        if (isGameOver()) {
             g.setFont(new Font("Arial", Font.BOLD, 64));
-            if (result.equals("WIN")) {
+            if (getResult().equals("WIN")) {
                 g.setColor(new Color(0, 150, 0));
                 g.drawString("YOU WIN!", WIDTH / 2 - 190, HEIGHT / 2);
             } else {
@@ -88,10 +88,11 @@ public class Screen extends JPanel implements MouseListener {
         }
     }
 
-    // mouse click: pop the bubble that was clicked
+    // pop the bubble when the mouse button goes down. mouseClicked is not used,
+    // because Java does not send it if the mouse moved during the click.
     @Override
-    public void mouseClicked(MouseEvent e) {
-        if (gameOver) {
+    public void mousePressed(MouseEvent e) {
+        if (isGameOver()) {
             return;
         }
         int mx = e.getX();
@@ -137,8 +138,16 @@ public class Screen extends JPanel implements MouseListener {
         this.seconds = seconds;
     }
 
+    public synchronized int getSeconds() {
+        return seconds;
+    }
+
+    public synchronized String getResult() {
+        return result;
+    }
+
     @Override
-    public void mousePressed(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {}
 
     @Override
     public void mouseReleased(MouseEvent e) {}
