@@ -2,11 +2,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
-/**
- * Bubble / Balloon for the popping game.
- * Each bubble moves on its own thread and can be clicked to pop.
- * When popped, its thread must be stopped.
- */
 public class Bubble implements Runnable {
     private int x;
     private int y;
