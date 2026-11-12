@@ -1,6 +1,3 @@
-/**
- * Countdown timer thread for the bubble popping game.
- */
 public class Countdown implements Runnable {
     private final Screen screen;
     private int seconds;
