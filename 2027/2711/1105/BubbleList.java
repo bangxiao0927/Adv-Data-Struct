@@ -1,7 +1,3 @@
-/**
- * A custom data structure to store the bubble objects.
- * (Not java.util.ArrayList - implemented from scratch for this assignment.)
- */
 public class BubbleList {
     private Bubble[] items;
     private int size;
