@@ -1,6 +1,3 @@
-/**
- * Animation thread: takes a Screen reference and repeatedly calls repaint.
- */
 public class Animate implements Runnable {
     private final Screen screen;
 
