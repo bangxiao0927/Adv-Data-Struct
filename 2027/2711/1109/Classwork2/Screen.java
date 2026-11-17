@@ -12,13 +12,11 @@ import java.io.ObjectOutputStream;
 import javax.swing.JPanel;
 
 // player1 (red) moves with the arrow keys. player2 (blue) moves with W, A, S, D.
-// Each player is saved to its own file after it moves,
-// and the saved positions are loaded when the screen starts.
 public class Screen extends JPanel implements KeyListener {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
-    public static final int SIZE = 40;   // each player is a square
-    public static final int STEP = 10;   // pixels moved per key press
+    public static final int SIZE = 40;
+    public static final int STEP = 10;
     private static final String FILE1 = "player1.dat";
     private static final String FILE2 = "player2.dat";
 
@@ -31,7 +29,6 @@ public class Screen extends JPanel implements KeyListener {
         setFocusable(true);
         addKeyListener(this);
 
-        // load the last saved positions. If there is no saved position, start in the center.
         player1 = loadPlayer(FILE1);
         if (player1 == null) {
             player1 = new Player((WIDTH - SIZE) / 2, (HEIGHT - SIZE) / 2);
@@ -84,7 +81,6 @@ public class Screen extends JPanel implements KeyListener {
     public void keyTyped(KeyEvent e) {
     }
 
-    // Moves the player only if it stays on the screen. Then the player is saved.
     private void tryMove(Player p, int dx, int dy, String fileName) {
         int newX = p.getX() + dx;
         int newY = p.getY() + dy;
@@ -107,7 +103,6 @@ public class Screen extends JPanel implements KeyListener {
         }
     }
 
-    // Returns the saved player, or null if there is no saved file yet.
     private Player loadPlayer(String fileName) {
         File file = new File(fileName);
         if (!file.exists()) {
