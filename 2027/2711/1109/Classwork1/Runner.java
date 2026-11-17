@@ -6,8 +6,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
-// To-Do list. The list is saved to tasks.dat after every add,
-// and it is loaded again when the program starts.
 public class Runner {
     private static final String FILE_NAME = "tasks.dat";
     private static Scanner sc = new Scanner(System.in);
@@ -42,7 +40,6 @@ public class Runner {
         sc.close();
     }
 
-    // Loads the saved list if the file exists. Otherwise it makes a new empty list.
     @SuppressWarnings("unchecked")
     private static DLList<String> loadTasks() {
         File file = new File(FILE_NAME);
