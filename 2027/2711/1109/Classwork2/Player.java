@@ -1,7 +1,5 @@
 import java.io.Serializable;
 
-// The position of a player. It is Serializable so it can be saved to a file.
-// This class does not import Graphics. Screen draws the player.
 public class Player implements Serializable {
     private static final long serialVersionUID = 1L;
     private int x;
