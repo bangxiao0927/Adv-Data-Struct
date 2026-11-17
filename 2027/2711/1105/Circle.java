@@ -13,9 +13,8 @@ public class Circle implements Runnable {
         this.radius = 40;
     }
 
-    // draw the circle based upon x
     public void drawMe(Graphics g) {
-        g.setColor(new Color(100, 149, 237)); // cornflower blue
+        g.setColor(new Color(100, 149, 237));
         g.fillOval(x - radius, y - radius, 2 * radius, 2 * radius);
         g.setColor(Color.BLACK);
         g.drawOval(x - radius, y - radius, 2 * radius, 2 * radius);
@@ -25,11 +24,10 @@ public class Circle implements Runnable {
         try {
             while (isRunning()) {
                 x += 5;
-                // wrap around when it leaves the screen
                 if (x - radius > 800) {
                     x = radius;
                 }
-                Thread.sleep(100); // wait 100 milliseconds between increments
+                Thread.sleep(100);
             }
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();

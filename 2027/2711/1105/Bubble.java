@@ -32,7 +32,6 @@ public class Bubble implements Runnable {
         color = new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
     }
 
-    // draw the bubble (nothing is drawn once it is popped)
     public synchronized void drawMe(Graphics g) {
         if (popped) {
             return;
@@ -43,13 +42,11 @@ public class Bubble implements Runnable {
         g.drawOval(x - radius, y - radius, 2 * radius, 2 * radius);
     }
 
-    // move the bubble and bounce off the walls
     public void run() {
         try {
             while (isRunning()) {
                 int newX = getX() + dx;
                 int newY = getY() + dy;
-                // bounce off the walls. Put the bubble back inside, so it never goes past the edge.
                 if (newX - radius < 0) {
                     newX = radius;
                     dx = Math.abs(dx);
@@ -74,13 +71,11 @@ public class Bubble implements Runnable {
         }
     }
 
-    // move the bubble to a new position
     public synchronized void moveTo(int newX, int newY) {
         x = newX;
         y = newY;
     }
 
-    // the bubble keeps moving until it is stopped or popped
     public synchronized boolean isRunning() {
         return running && !popped;
     }
@@ -109,9 +104,6 @@ public class Bubble implements Runnable {
         return radius;
     }
 
-    // a click counts if it is inside the bubble, or up to 5 pixels outside its edge.
-    // the bubble on screen can be a few pixels away from its real position,
-    // so this allows clicks on the edge to work.
     public synchronized boolean contains(int mx, int my) {
         int reach = radius + 5;
         int dx2 = mx - x;

@@ -10,12 +10,11 @@ public class Countdown implements Runnable {
     public void run() {
         try {
             while (seconds > 0 && !screen.isGameOver()) {
-                Thread.sleep(1000); // tick once per second
+                Thread.sleep(1000);
                 seconds--;
                 screen.setSeconds(seconds);
                 screen.repaint();
             }
-            // time is up and the player has not won yet -> lose
             if (!screen.isGameOver()) {
                 screen.finish(false);
             }

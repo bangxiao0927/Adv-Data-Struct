@@ -48,7 +48,6 @@ public class BubbleList {
         size = 0;
     }
 
-    // return a snapshot of the current bubbles so painting can iterate safely
     public synchronized Bubble[] toArray() {
         Bubble[] copy = new Bubble[size];
         System.arraycopy(items, 0, copy, 0, size);

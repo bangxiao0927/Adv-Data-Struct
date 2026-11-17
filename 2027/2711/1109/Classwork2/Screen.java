@@ -93,6 +93,8 @@ public class Screen extends JPanel implements KeyListener {
         }
         p.move(dx, dy);
         savePlayer(p, fileName);
+
+        repaint();
     }
 
     private void savePlayer(Player p, String fileName) {

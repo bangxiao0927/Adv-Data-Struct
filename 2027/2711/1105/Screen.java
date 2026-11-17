@@ -15,7 +15,7 @@ public class Screen extends JPanel implements MouseListener {
     private BubbleList bubbles;
 
     private boolean gameOver = false;
-    private String result = ""; // "WIN" or "LOSE"
+    private String result = "";
     private int seconds = TIMER_SECONDS;
 
     public Screen() {
@@ -23,12 +23,10 @@ public class Screen extends JPanel implements MouseListener {
         setBackground(Color.WHITE);
         addMouseListener(this);
 
-        // --- Circle part ---
         cr = new Circle(60);
         Thread circleThread = new Thread(cr);
         circleThread.start();
 
-        // --- Game bubbles part (at least 20 bubbles, each on its own thread) ---
         bubbles = new BubbleList();
         int bubbleCount = 24;
         for (int i = 0; i < bubbleCount; i++) {
@@ -37,12 +35,10 @@ public class Screen extends JPanel implements MouseListener {
             new Thread(b).start();
         }
 
-        // --- Animation repaint thread ---
-        Animate animate = new Animate(this); // pass this as the Screen reference
+        Animate animate = new Animate(this);
         Thread animateThread = new Thread(animate);
         animateThread.start();
 
-        // --- Countdown timer thread ---
         Countdown timer = new Countdown(this, TIMER_SECONDS);
         new Thread(timer).start();
     }
@@ -56,23 +52,19 @@ public class Screen extends JPanel implements MouseListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // draw the circle (cr) as required
         cr.drawMe(g);
 
-        // draw all the bubbles
         Bubble[] list = bubbles.toArray();
         for (int i = 0; i < list.length; i++) {
             list[i].drawMe(g);
         }
 
-        // draw the HUD
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.BOLD, 24));
         g.drawString("Time: " + getSeconds(), 25, 40);
         g.drawString("Bubbles left: " + bubbles.size(), 25, 72);
         g.drawString("Click a bubble to pop it!", 25, 104);
 
-        // draw the win / lose text at the end
         if (isGameOver()) {
             g.setFont(new Font("Arial", Font.BOLD, 64));
             if (getResult().equals("WIN")) {
@@ -88,8 +80,6 @@ public class Screen extends JPanel implements MouseListener {
         }
     }
 
-    // pop the bubble when the mouse button goes down. mouseClicked is not used,
-    // because Java does not send it if the mouse moved during the click.
     @Override
     public void mousePressed(MouseEvent e) {
         if (isGameOver()) {
@@ -98,16 +88,14 @@ public class Screen extends JPanel implements MouseListener {
         int mx = e.getX();
         int my = e.getY();
 
-        // check bubbles from top to bottom
         for (int i = bubbles.size() - 1; i >= 0; i--) {
             Bubble b = bubbles.get(i);
             if (b != null && b.contains(mx, my)) {
-                b.pop();          // mark as popped so it is no longer drawn
-                b.stop();         // stop the thread running this bubble
-                bubbles.remove(i);// remove it from the data structure
+                b.pop();
+                b.stop();
+                bubbles.remove(i);
                 repaint();
 
-                // win condition: all bubbles popped before the timer ends
                 if (bubbles.isEmpty()) {
                     finish(true);
                 }
@@ -116,13 +104,16 @@ public class Screen extends JPanel implements MouseListener {
         }
     }
 
-    // call when the game ends (win or lose): stop every remaining bubble thread
     public synchronized void finish(boolean won) {
         if (gameOver) {
             return;
         }
         gameOver = true;
-        result = won ? "WIN" : "LOSE";
+        if (won) {
+            result = "WIN";
+        } else {
+            result = "LOSE";
+        }
         Bubble[] list = bubbles.toArray();
         for (int i = 0; i < list.length; i++) {
             list[i].stop();

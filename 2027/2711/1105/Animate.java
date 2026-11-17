@@ -9,7 +9,7 @@ public class Animate implements Runnable {
         try {
             while (true) {
                 screen.repaint();
-                Thread.sleep(20); // repaint about 50 times per second
+                Thread.sleep(20);
             }
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
