@@ -66,6 +66,7 @@ public class Bubble implements Runnable {
                 moveTo(newX, newY);
                 Thread.sleep(40);
             }
+            Thread.currentThread().interrupt();
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
         }
